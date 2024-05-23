@@ -1,6 +1,10 @@
 {
   "dependencies": {
-    "@next-saas-rbac/auth": "workspace:*"
+    "@fastify/cors": "^9.0.1",
+    "@next-saas-rbac/auth": "workspace:*",
+    "fastify": "^4.27.0",
+    "fastify-type-provider-zod": "^1.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@next-saas-rbac/eslint-config": "workspace:*",
@@ -17,7 +21,7 @@
   "name": "@next-saas-rbac/api",
   "prettier": "@next-saas-rbac/prettier",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/http/server.ts"
   },
   "version": "1.0.0"
 }
