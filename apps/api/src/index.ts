@@ -1,4 +1,6 @@
-import { ability } from "@next-saas-rbac/auth";
+import { defineAbilityFor } from "@next-saas-rbac/auth";
+
+const ability = defineAbilityFor({ role: "MEMBER" });
 
 const userCanInviteSomeoneElse = ability.can("invite", "User");
 const userCanDeleteOtherUser = ability.can("delete", "User");
