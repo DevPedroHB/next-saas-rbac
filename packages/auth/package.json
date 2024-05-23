@@ -14,5 +14,8 @@
   "prettier": "@next-saas-rbac/prettier",
   "private": true,
   "types": "src/index.ts",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "@casl/ability": "^6.7.1"
+  }
 }

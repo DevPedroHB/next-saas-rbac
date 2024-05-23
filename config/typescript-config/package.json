@@ -1,6 +1,7 @@
 {
   "files": [
-    "library.json"
+    "library.json",
+    "node.json"
   ],
   "license": "MIT",
   "name": "@next-saas-rbac/typescript-config",
