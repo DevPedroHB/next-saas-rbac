@@ -32,6 +32,18 @@ importers:
 
   config/typescript-config: {}
 
+  packages/auth:
+    devDependencies:
+      '@next-saas-rbac/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@next-saas-rbac/prettier':
+        specifier: workspace:*
+        version: link:../../config/prettier
+      '@next-saas-rbac/typescript-config':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+
 packages:
 
   '@alloc/quick-lru@5.2.0':

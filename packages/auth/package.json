@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "@next-saas-rbac/eslint-config": "workspace:*",
+    "@next-saas-rbac/prettier": "workspace:*",
+    "@next-saas-rbac/typescript-config": "workspace:*"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@next-saas-rbac/eslint-config/library"
+    ]
+  },
+  "main": "src/index.ts",
+  "name": "@next-saas-rbac/auth",
+  "prettier": "@next-saas-rbac/prettier",
+  "private": true,
+  "types": "src/index.ts",
+  "version": "1.0.0"
+}

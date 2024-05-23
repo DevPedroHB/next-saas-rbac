@@ -1,0 +1,6 @@
+{
+  "extends": "@next-saas-rbac/typescript-config/library.json",
+  "include": [
+    "src/**/*"
+  ]
+}

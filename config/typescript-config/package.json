@@ -1,9 +1,9 @@
 {
+  "files": [
+    "library.json"
+  ],
   "license": "MIT",
   "name": "@next-saas-rbac/typescript-config",
   "private": true,
-  "publishConfig": {
-    "access": "public"
-  },
-  "version": "0.0.0"
+  "version": "1.0.0"
 }
