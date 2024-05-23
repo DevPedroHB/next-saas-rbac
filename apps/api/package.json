@@ -3,6 +3,7 @@
     "@fastify/cors": "^9.0.1",
     "@next-saas-rbac/auth": "workspace:*",
     "@prisma/client": "5.14.0",
+    "bcryptjs": "^2.4.3",
     "fastify": "^4.27.0",
     "fastify-type-provider-zod": "^1.2.0",
     "zod": "^3.23.8"
@@ -12,6 +13,7 @@
     "@next-saas-rbac/eslint-config": "workspace:*",
     "@next-saas-rbac/prettier": "workspace:*",
     "@next-saas-rbac/typescript-config": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.12.12",
     "prisma": "^5.14.0",
     "prisma-erd-generator": "^1.11.2",

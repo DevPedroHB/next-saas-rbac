@@ -2,5 +2,13 @@
   "extends": "@next-saas-rbac/typescript-config/node.json",
   "include": [
     "src/**/*"
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  }
 }
