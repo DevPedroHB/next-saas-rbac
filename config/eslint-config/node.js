@@ -1,4 +1,4 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["@pedrohb/eslint-config/next"],
+  extends: ["@pedrohb/eslint-config/node"],
 };

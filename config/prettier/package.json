@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14"
+  },
+  "main": "index.mjs",
+  "name": "@next-saas-rbac/prettier",
+  "private": true,
+  "version": "1.0.0"
+}

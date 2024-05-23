@@ -1,19 +1,20 @@
 {
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
-    "@vercel/style-guide": "^5.2.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-turbo": "^1.12.4",
-    "eslint-plugin-only-warn": "^1.1.0",
-    "typescript": "^5.3.3"
+    "@next-saas-rbac/prettier": "workspace:*",
+    "@pedrohb/eslint-config": "^1.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./library.js"
+    ]
   },
   "files": [
     "library.js",
     "next.js",
-    "react-internal.js"
+    "node.js"
   ],
   "name": "@next-saas-rbac/eslint-config",
+  "prettier": "@next-saas-rbac/prettier",
   "private": true,
-  "version": "0.0.0"
+  "version": "1.0.0"
 }
