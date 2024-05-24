@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@fastify/cors": "^9.0.1",
     "@next-saas-rbac/auth": "workspace:*",
     "@prisma/client": "5.14.0",
@@ -26,6 +27,9 @@
   },
   "name": "@next-saas-rbac/api",
   "prettier": "@next-saas-rbac/prettier",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "dev": "tsx watch src/http/server.ts"
   },

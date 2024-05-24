@@ -101,13 +101,13 @@ model Organization {
   avatarUrl                 String?  @map("avatar_url")
   createdAt                 DateTime @default(now()) @map("created_at")
   updatedAt                 DateTime @updatedAt @map("updated_at")
-  userId                    String   @map("user_id")
+  ownerId                   String   @map("owner_id")
 
   invites  Invite[]
   members  Member[]
   projects Project[]
 
-  owner User @relation(fields: [userId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id])
 
   @@map("organizations")
 }
@@ -121,10 +121,10 @@ model Project {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
   organizationId String   @map("organization_id")
-  userId         String   @map("user_id")
+  ownerId        String   @map("owner_id")
 
   organization Organization @relation(fields: [organizationId], references: [id])
-  owner        User         @relation(fields: [userId], references: [id])
+  owner        User         @relation(fields: [ownerId], references: [id])
 
   @@map("projects")
 }
