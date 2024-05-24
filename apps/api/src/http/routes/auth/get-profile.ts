@@ -24,9 +24,6 @@ export async function getProfile(app: FastifyInstance) {
                 avatarUrl: z.string().url().nullable(),
               }),
             }),
-            400: z.object({
-              message: z.string(),
-            }),
           },
         },
       },
