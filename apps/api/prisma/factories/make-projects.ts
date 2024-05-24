@@ -19,7 +19,7 @@ export async function makeProjects() {
       await prisma.project.create({
         data: {
           name: faker.lorem.words(3),
-          description: faker.lorem.paragraph(),
+          description: faker.lorem.text(),
           slug: faker.lorem.slug(),
           avatarUrl: faker.image.url(),
           organizationId: organization.id,
