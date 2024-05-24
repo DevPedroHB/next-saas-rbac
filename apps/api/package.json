@@ -35,7 +35,7 @@
   "name": "@next-saas-rbac/api",
   "prettier": "@next-saas-rbac/prettier",
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "pnpm env:load tsx prisma/seed.ts"
   },
   "scripts": {
     "db:migrate": "pnpm env:load prisma migrate dev",

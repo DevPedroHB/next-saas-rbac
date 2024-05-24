@@ -18,6 +18,7 @@ import { createAccount } from "./routes/auth/create-account";
 import { getProfile } from "./routes/auth/get-profile";
 import { requestPasswordRecover } from "./routes/auth/request-password-recover";
 import { resetPassword } from "./routes/auth/reset-password";
+import { createOrganization } from "./routes/orgs/create-organization";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -36,7 +37,7 @@ app.register(fastifySwagger, {
     },
     components: {
       securitySchemes: {
-        bearerAuth: {
+        bearer: {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
@@ -59,12 +60,15 @@ app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
 });
 
+// Auth
 app.register(createAccount);
 app.register(authenticateWithPassword);
 app.register(getProfile);
 app.register(requestPasswordRecover);
 app.register(resetPassword);
 app.register(authenticateWithGithub);
+// Organizations
+app.register(createOrganization);
 
 app
   .listen({

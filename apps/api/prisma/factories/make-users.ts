@@ -1,15 +1,13 @@
-import { Faker } from "@faker-js/faker";
-import type { PrismaClient } from "@prisma/client";
+import { faker } from "@/lib/faker";
+import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
 import { randomInt } from "crypto";
 
 interface IMakeUsers {
-  prisma: PrismaClient;
-  faker: Faker;
   length: number;
 }
 
-export async function makeUsers({ prisma, faker, length }: IMakeUsers) {
+export async function makeUsers({ length }: IMakeUsers) {
   const l = randomInt(length, length * 2);
   const passwordHash = await hash("123456", 10);
 

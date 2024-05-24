@@ -1,13 +1,8 @@
-import type { Faker } from "@faker-js/faker";
-import type { PrismaClient } from "@prisma/client";
+import { faker } from "@/lib/faker";
+import { prisma } from "@/lib/prisma";
 import { randomInt } from "crypto";
 
-interface IMakeProjects {
-  prisma: PrismaClient;
-  faker: Faker;
-}
-
-export async function makeProjects({ prisma, faker }: IMakeProjects) {
+export async function makeProjects() {
   const organizations = await prisma.organization.findMany({
     include: {
       members: true,
