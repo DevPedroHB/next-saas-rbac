@@ -1,5 +1,6 @@
 import { github, githubApi } from "@/lib/axios";
 import { prisma } from "@/lib/prisma";
+import { env } from "@next-saas-rbac/env";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
@@ -43,10 +44,10 @@ export async function authenticateWithGithub(app: FastifyInstance) {
         null,
         {
           params: {
-            client_id: process.env.GITHUB_CLIENT_ID,
-            client_secret: process.env.GITHUB_CLIENT_SECRET,
+            client_id: env.GITHUB_CLIENT_ID,
+            client_secret: env.GITHUB_CLIENT_SECRET,
             code,
-            redirect_uri: process.env.GITHUB_REDIRECT_URI,
+            redirect_uri: env.GITHUB_REDIRECT_URI,
           },
           headers: {
             Accept: "application/json",

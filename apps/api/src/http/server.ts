@@ -2,6 +2,7 @@ import fastifyCors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
+import { env } from "@next-saas-rbac/env";
 import { fastify } from "fastify";
 import {
   ZodTypeProvider,
@@ -27,13 +28,20 @@ app.setValidatorCompiler(validatorCompiler);
 app.setErrorHandler(errorHandler);
 
 app.register(fastifySwagger, {
-  swagger: {
-    consumes: ["application/json"],
-    produces: ["application/json"],
+  openapi: {
     info: {
       title: "Next.js SaaS",
       description: "Full-stack SaaS with multi-tenant & RBAC.",
       version: "1.0.0",
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
     },
   },
   transform: jsonSchemaTransform,
@@ -48,7 +56,7 @@ app.register(fastifyCors, {
 });
 
 app.register(fastifyJwt, {
-  secret: "example-jwt-secret",
+  secret: env.JWT_SECRET,
 });
 
 app.register(createAccount);
@@ -61,7 +69,7 @@ app.register(authenticateWithGithub);
 app
   .listen({
     host: "0.0.0.0",
-    port: 3333,
+    port: env.API_PORT,
   })
   .then(() => {
     const { port } = app.server.address() as AddressInfo;
