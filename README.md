@@ -1,83 +1,83 @@
 # Next.js SaaS + RBAC
 
-Este projeto contém todos os boilerplate necessários para configurar um SaaS multilocatário com Next.js incluindo autenticação e autorização RBAC.
+This project contains all the necessary boilerplate to setup a multi-tenant SaaS with Next.js including authentication and RBAC authorization.
 
-## Características
+## Features
 
-### Autenticação
+### Authentication
 
-- [ ] Ele deve ser capaz de autenticar usando e-mail & senha;
-- [ ] Ele deve ser capaz de autenticar usando a conta do Github;
-- [ ] Ele deve ser capaz de recuperar senha usando e-mail;
-- [ ] Deve ser capaz de criar uma conta (e-mail, nome e senha);
+- [ ] It should be able to authenticate using e-mail & password;
+- [ ] It should be able to authenticate using Github account;
+- [ ] It should be able to recover password using e-mail;
+- [x] It should be able to create an account (e-mail, name and password);
 
-### Organizações
+### Organizations
 
-- [ ] Deve ser capaz de criar uma nova organização;
-- [ ] Ele deve ser capaz de obter organizações às quais o usuário pertence;
-- [ ] Ele deve ser capaz de atualizar uma organização;
-- [ ] Ele deve ser capaz de encerrar uma organização;
-- [ ] Deve ser capaz de transferir a propriedade da organização;
+- [ ] It should be able to create a new organization;
+- [ ] It should be able to get organizations to which the user belongs;
+- [ ] It should be able to update an organization;
+- [ ] It should be able to shutdown an organization;
+- [ ] It should be able to transfer organization ownership;
 
-### Convida
+### Invites
 
-- [ ] Ele deve ser capaz de convidar um novo membro (e-mail, função);
-- [ ] Deve poder aceitar um convite;
-- [ ] Deve poder revogar um convite pendente;
+- [ ] It should be able to invite a new member (e-mail, role);
+- [ ] It should be able to accept an invite;
+- [ ] It should be able to revoke a pending invite;
 
-### Membros
+### Members
 
-- [ ] Deve ser capaz de obter membros da organização;
-- [ ] Ele deve ser capaz de atualizar uma função de membro;
+- [ ] It should be able to get organization members;
+- [ ] It should be able to update a member role;
 
-### Projetos
+### Projects
 
-- [ ] Ele deve ser capaz de obter projetos dentro de uma organização;
-- [ ] Ele deve ser capaz de criar um novo projeto (nome, url, descrição);
-- [ ] Ele deve ser capaz de atualizar um projeto (nome, url, descrição);
-- [ ] Ele deve ser capaz de excluir um projeto;
+- [ ] It should be able to get projects within a organization;
+- [ ] It should be able to create a new project (name, url, description);
+- [ ] It should be able to update a project (name, url, description);
+- [ ] It should be able to delete a project;
 
-### Faturamento
+### Billing
 
-- [ ] Ele deve ser capaz de obter detalhes de faturamento para a organização (US $ 20 por projeto / US $ 10 por membro, excluindo a função de faturamento);
+- [ ] It should be able to get billing details for organization ($20 per project / $10 per member excluding billing role);
 
 ## RBAC
 
-Funções & permissões.
+Roles & permissions.
 
-### Papéis
+### Roles
 
-- Proprietário (contar como administrador)
-- Administrador
-- Membro
-- Faturamento (um por organização)
-- Anônimo
+- Owner (count as administrator)
+- Administrator
+- Member
+- Billing (one per organization)
+- Anonymous
 
-### Tabela de permissões
+### Permissions table
 
-|                                  | Administrador | Membro | Faturamento | Anônimo |
-| -------------------------------- | ------------- | ------ | ----------- | ------- |
-| Atualizar organização            | ✅            | ❌     | ❌          | ❌      |
-| Excluir organização              | ✅            | ❌     | ❌          | ❌      |
-| Convide um membro                | ✅            | ❌     | ❌          | ❌      |
-| Revogar um convite               | ✅            | ❌     | ❌          | ❌      |
-| Lista de membros                 | ✅            | ✅     | ✅          | ❌      |
-| Transferência de propriedade     | ⚠️            | ❌     | ❌          | ❌      |
-| Atualizar função de membro       | ✅            | ❌     | ❌          | ❌      |
-| Excluir membro                   | ✅            | ⚠️     | ❌          | ❌      |
-| Listar projetos                  | ✅            | ✅     | ✅          | ❌      |
-| Criar um novo projeto            | ✅            | ✅     | ❌          | ❌      |
-| Atualizar um projeto             | ✅            | ⚠️     | ❌          | ❌      |
-| Excluir um projeto               | ✅            | ⚠️     | ❌          | ❌      |
-| Obter detalhes de faturamento    | ✅            | ❌     | ✅          | ❌      |
-| Exportar detalhes de faturamento | ✅            | ❌     | ✅          | ❌      |
+|                        | Administrator | Member | Billing | Anonymous |
+| ---------------------- | ------------- | ------ | ------- | --------- |
+| Update organization    | ✅            | ❌     | ❌      | ❌        |
+| Delete organization    | ✅            | ❌     | ❌      | ❌        |
+| Invite a member        | ✅            | ❌     | ❌      | ❌        |
+| Revoke an invite       | ✅            | ❌     | ❌      | ❌        |
+| List members           | ✅            | ✅     | ✅      | ❌        |
+| Transfer ownership     | ⚠️            | ❌     | ❌      | ❌        |
+| Update member role     | ✅            | ❌     | ❌      | ❌        |
+| Delete member          | ✅            | ⚠️     | ❌      | ❌        |
+| List projects          | ✅            | ✅     | ✅      | ❌        |
+| Create a new project   | ✅            | ✅     | ❌      | ❌        |
+| Update a project       | ✅            | ⚠️     | ❌      | ❌        |
+| Delete a project       | ✅            | ⚠️     | ❌      | ❌        |
+| Get billing details    | ✅            | ❌     | ✅      | ❌        |
+| Export billing details | ✅            | ❌     | ✅      | ❌        |
 
-✅ > = permitido
-❌ > = não permitido
-⚠️ > = permitido c/ condições
+> ✅ = allowed
+> ❌ = not allowed
+> ⚠️ = allowed w/ conditions
 
-#### Condições
+#### Conditions
 
-- Somente os proprietários podem transferir a propriedade da organização;
-- Somente administradores e autores do projeto podem atualizar/excluir o projeto;
-- Os membros podem deixar sua própria organização;
+- Only owners may transfer organization ownership;
+- Only administrators and project authors may update/delete the project;
+- Members can leave their own organization;
