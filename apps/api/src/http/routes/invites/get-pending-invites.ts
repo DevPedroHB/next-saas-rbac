@@ -1,10 +1,9 @@
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from "zod";
-
 import { auth } from "@/http/middlewares/auth";
 import { prisma } from "@/lib/prisma";
 import { role as roleSchema } from "@next-saas-rbac/auth";
+import type { FastifyInstance } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { z } from "zod";
 import { BadRequestError } from "../errors/bad-request-error";
 
 export async function getPendingInvites(app: FastifyInstance) {
