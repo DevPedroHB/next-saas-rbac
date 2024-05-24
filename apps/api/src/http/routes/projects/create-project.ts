@@ -58,7 +58,7 @@ export async function createProject(app: FastifyInstance) {
           },
         });
 
-        reply.status(201).send({
+        return reply.status(201).send({
           projectId: project.id,
         });
       }

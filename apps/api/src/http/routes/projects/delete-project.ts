@@ -62,7 +62,7 @@ export async function deleteProject(app: FastifyInstance) {
           },
         });
 
-        reply.status(204).send();
+        return reply.status(204).send();
       }
     );
 }

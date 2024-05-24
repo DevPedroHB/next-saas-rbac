@@ -1,31 +1,29 @@
 import { auth } from "@/http/middlewares/auth";
 import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/utils/get-user-permissions";
-import { project as projectSchema } from "@next-saas-rbac/auth";
+import { role as roleSchema } from "@next-saas-rbac/auth";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { BadRequestError } from "../errors/bad-request-error";
 import { UnAuthorizedError } from "../errors/unauthorized-error";
 
-export async function updateProject(app: FastifyInstance) {
+export async function updateMember(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .put(
-      "/organizations/:slug/project/:projectId",
+      "/organizations/:slug/members/:memberId",
       {
         schema: {
-          tags: ["projects"],
-          summary: "Update a project.",
+          tags: ["members"],
+          summary: "Update a member.",
           security: [{ bearer: [] }],
           params: z.object({
             slug: z.string(),
-            projectId: z.string().uuid(),
+            memberId: z.string().uuid(),
           }),
           body: z.object({
-            name: z.string(),
-            description: z.string(),
+            role: roleSchema,
           }),
           response: {
             204: z.null(),
@@ -33,41 +31,28 @@ export async function updateProject(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const { slug, projectId } = request.params;
-        const { name, description } = request.body;
+        const { slug, memberId } = request.params;
+        const { role } = request.body;
 
         const userId = await request.getCurrentUserId();
         const { organization, membership } =
           await request.getUserMembership(slug);
 
-        const project = await prisma.project.findUnique({
-          where: {
-            id: projectId,
-            organizationId: organization.id,
-          },
-        });
-
-        if (!project) {
-          throw new BadRequestError("Project not found.");
-        }
-
         const { cannot } = getUserPermissions(userId, membership.role);
-        const authProject = projectSchema.parse(project);
 
-        if (cannot("update", authProject)) {
+        if (cannot("update", "User")) {
           throw new UnAuthorizedError(
-            "You're not allowed to update this project."
+            "You're not allowed to update this member."
           );
         }
 
-        await prisma.project.update({
+        await prisma.member.update({
           where: {
-            id: projectId,
+            id: memberId,
             organizationId: organization.id,
           },
           data: {
-            name,
-            description,
+            role,
           },
         });
 

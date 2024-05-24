@@ -83,7 +83,7 @@ export async function getMembers(app: FastifyInstance) {
           }
         );
 
-        reply.status(200).send({
+        return reply.status(200).send({
           members: membersWithRoles,
         });
       }

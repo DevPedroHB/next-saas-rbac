@@ -84,7 +84,7 @@ export async function getProject(app: FastifyInstance) {
           throw new BadRequestError("Project not found.");
         }
 
-        reply.status(200).send({
+        return reply.status(200).send({
           project,
         });
       }

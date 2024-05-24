@@ -63,7 +63,7 @@ export async function createOrganization(app: FastifyInstance) {
           },
         });
 
-        reply.status(201).send({
+        return reply.status(201).send({
           organizationId: organization.id,
         });
       }
