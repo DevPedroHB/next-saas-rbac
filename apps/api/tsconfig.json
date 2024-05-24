@@ -1,7 +1,9 @@
 {
   "extends": "@next-saas-rbac/typescript-config/node.json",
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "prisma/**/*",
+    "@types/*.d.ts"
   ],
   "compilerOptions": {
     "baseUrl": ".",

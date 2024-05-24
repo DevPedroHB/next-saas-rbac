@@ -9,7 +9,7 @@ interface IMakeOrganizations {
 
 export async function makeOrganizations({ prisma, faker }: IMakeOrganizations) {
   const users = await prisma.user.findMany();
-  const l = randomInt(users.length / 2, users.length);
+  const l = randomInt(Math.round(users.length / 2), users.length);
 
   for (let i = 0; i < l; i++) {
     const user = faker.helpers.arrayElement(users);

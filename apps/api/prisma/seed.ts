@@ -1,11 +1,11 @@
+import { faker } from "@/lib/faker";
+import { prisma } from "@/lib/prisma";
 import {
   makeMembers,
   makeOrganizations,
   makeProjects,
   makeUsers,
-} from "../src/factories";
-import { faker } from "../src/lib/faker";
-import { prisma } from "../src/lib/prisma";
+} from "./factories";
 
 interface Table {
   tablename: string;
