@@ -1,0 +1,29 @@
+{
+	"author": "Pedro Henrique Bérgamo",
+	"dependencies": {
+		"@prisma/client": "6.8.2",
+		"@prisma/extension-accelerate": "^2.0.1"
+	},
+	"description": "Package for Database",
+	"devDependencies": {
+		"@next-saas-rbac/typescript-config": "workspace:*",
+		"@types/node": "^22.15.29",
+		"dotenv-cli": "^8.0.0",
+		"prisma": "^6.8.2",
+		"tsup": "^8.5.0",
+		"tsx": "^4.19.4",
+		"typescript": "5.8.2"
+	},
+	"keywords": ["database", "prisma"],
+	"license": "MIT",
+	"main": "src/index.ts",
+	"name": "@next-saas-rbac/database",
+	"packageManager": "pnpm@10.11.0",
+	"scripts": {
+		"db:deploy": "prisma migrate deploy",
+		"db:generate": "prisma generate",
+		"db:migrate": "pnpm env:load prisma migrate dev --skip-generate",
+		"env:load": "dotenv -e ../../.env --"
+	},
+	"version": "1.0.0"
+}
