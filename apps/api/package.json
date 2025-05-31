@@ -1,5 +1,13 @@
 {
 	"author": "Pedro Henrique Bérgamo",
+	"dependencies": {
+		"@fastify/cors": "^11.0.1",
+		"@next-saas-rbac/auth": "workspace:*",
+		"@next-saas-rbac/database": "workspace:*",
+		"fastify": "^5.3.3",
+		"fastify-type-provider-zod": "^4.0.2",
+		"zod": "^3.25.42"
+	},
 	"description": "API for Next.js SaaS + RBAC",
 	"devDependencies": {
 		"@next-saas-rbac/typescript-config": "workspace:*",
@@ -12,14 +20,11 @@
 		"api"
 	],
 	"license": "MIT",
-	"main": "main.js",
+	"main": "src/http/main.ts",
 	"name": "@next-saas-rbac/api",
 	"packageManager": "pnpm@10.11.0",
 	"scripts": {
-		"dev": "tsx watch src/main.ts"
+		"dev": "tsx watch src/http/server.ts"
 	},
-	"version": "1.0.0",
-	"dependencies": {
-		"@next-saas-rbac/auth": "workspace:*"
-	}
+	"version": "1.0.0"
 }

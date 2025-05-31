@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: bitnami/postgresql:latest
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRESQL_USERNAME: "postgres"
+      POSTGRESQL_PASSWORD: "docker"
+      POSTGRESQL_DATABASE: "next_saas_rbac"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./postgres_data:/bitnami/postgresql"

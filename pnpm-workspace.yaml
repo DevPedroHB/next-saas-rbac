@@ -2,3 +2,9 @@ packages:
   - apps/*
   - packages/*
   - config/*
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - esbuild
+  - prisma
