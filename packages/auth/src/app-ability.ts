@@ -13,7 +13,7 @@ import { organizationSubject } from "./subjects/organization-subject";
 import { projectSubject } from "./subjects/project-subject";
 import { userSubject } from "./subjects/user-subject";
 
-const appAbilities = z.union([
+const appAbilitiesSchema = z.union([
 	projectSubject,
 	userSubject,
 	organizationSubject,
@@ -22,7 +22,7 @@ const appAbilities = z.union([
 	z.tuple([z.literal("manage"), z.literal("all")]),
 ]);
 
-type AppAbilities = z.infer<typeof appAbilities>;
+type AppAbilities = z.infer<typeof appAbilitiesSchema>;
 
 export type AppAbility = MongoAbility<AppAbilities>;
 
@@ -37,7 +37,14 @@ export function defineAbilityFor(user: User) {
 
 	permissions[user.role](user, builder);
 
-	const ability = builder.build();
+	const ability = builder.build({
+		detectSubjectType(subject) {
+			return subject.__typename;
+		},
+	});
+
+	ability.can = ability.can.bind(ability);
+	ability.cannot = ability.cannot.bind(ability);
 
 	return ability;
 }
