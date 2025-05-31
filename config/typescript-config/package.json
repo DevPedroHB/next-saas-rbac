@@ -1,0 +1,12 @@
+{
+	"devDependencies": {
+		"@tsconfig/node24": "^24.0.1"
+	},
+	"license": "MIT",
+	"name": "@next-saas-rbac/typescript-config",
+	"private": true,
+	"publishConfig": {
+		"access": "public"
+	},
+	"version": "1.0.0"
+}
