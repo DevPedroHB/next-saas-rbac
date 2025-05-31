@@ -1,0 +1,8 @@
+{
+	"delete": true,
+	"directory": ["./src"],
+	"exclude": [".spec.ts$", ".e2e-spec.ts$"],
+	"include": [".ts$"],
+	"noHeader": true,
+	"verbose": true
+}

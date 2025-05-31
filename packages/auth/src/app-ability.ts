@@ -4,11 +4,25 @@ import {
 	type MongoAbility,
 	createMongoAbility,
 } from "@casl/ability";
-import type { User } from "./models";
+import { z } from "zod";
+import type { User } from "./models/user";
 import { permissions } from "./permissions";
-import type { ProjectSubject, UserSubject } from "./subjects";
+import { billingSubject } from "./subjects/billing-subject";
+import { inviteSubject } from "./subjects/invite-subject";
+import { organizationSubject } from "./subjects/organization-subject";
+import { projectSubject } from "./subjects/project-subject";
+import { userSubject } from "./subjects/user-subject";
 
-type AppAbilities = UserSubject | ProjectSubject | ["manage", "all"];
+const appAbilities = z.union([
+	projectSubject,
+	userSubject,
+	organizationSubject,
+	inviteSubject,
+	billingSubject,
+	z.tuple([z.literal("manage"), z.literal("all")]),
+]);
+
+type AppAbilities = z.infer<typeof appAbilities>;
 
 export type AppAbility = MongoAbility<AppAbilities>;
 
