@@ -1,23 +1,14 @@
 import {
 	AbilityBuilder,
 	type CreateAbility,
-	type ForcedSubject,
 	type MongoAbility,
 	createMongoAbility,
 } from "@casl/ability";
 import type { User } from "./models";
 import { permissions } from "./permissions";
+import type { ProjectSubject, UserSubject } from "./subjects";
 
-const actions = ["manage", "invite", "delete"] as const;
-const subjects = ["User", "all"] as const;
-
-type AppAbilities = [
-	(typeof actions)[number],
-	(
-		| (typeof subjects)[number]
-		| ForcedSubject<Exclude<(typeof subjects)[number], "all">>
-	),
-];
+type AppAbilities = UserSubject | ProjectSubject | ["manage", "all"];
 
 export type AppAbility = MongoAbility<AppAbilities>;
 
