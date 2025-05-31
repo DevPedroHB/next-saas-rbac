@@ -1,0 +1,23 @@
+{
+	"author": "Pedro Henrique Bérgamo",
+	"description": "Package for Role Based Access Control",
+	"devDependencies": {
+		"@next-saas-rbac/typescript-config": "workspace:*",
+		"@types/node": "^22.15.29",
+		"tsup": "^8.5.0",
+		"tsx": "^4.19.4",
+		"typescript": "5.8.2"
+	},
+	"keywords": [
+		"rbac",
+		"abac"
+	],
+	"license": "MIT",
+	"main": "./src/index.ts",
+	"name": "@next-saas-rbac/auth",
+	"packageManager": "pnpm@10.11.0",
+	"version": "1.0.0",
+	"dependencies": {
+		"@casl/ability": "^6.7.3"
+	}
+}

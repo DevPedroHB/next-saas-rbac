@@ -1,0 +1,25 @@
+{
+	"author": "Pedro Henrique Bérgamo",
+	"description": "API for Next.js SaaS + RBAC",
+	"devDependencies": {
+		"@next-saas-rbac/typescript-config": "workspace:*",
+		"@types/node": "^22.15.29",
+		"tsup": "^8.5.0",
+		"tsx": "^4.19.4",
+		"typescript": "5.8.2"
+	},
+	"keywords": [
+		"api"
+	],
+	"license": "MIT",
+	"main": "main.js",
+	"name": "@next-saas-rbac/api",
+	"packageManager": "pnpm@10.11.0",
+	"scripts": {
+		"dev": "tsx watch src/main.ts"
+	},
+	"version": "1.0.0",
+	"dependencies": {
+		"@next-saas-rbac/auth": "workspace:*"
+	}
+}
