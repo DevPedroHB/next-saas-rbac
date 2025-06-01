@@ -11,7 +11,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 		{
 			schema: {
 				summary: "Authenticate with password",
-				tags: ["auth"],
+				tags: ["Auth"],
 				operationId: "authenticateWithPassword",
 				body: z.object({
 					email: z.string().email(),

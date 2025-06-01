@@ -11,7 +11,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 		{
 			schema: {
 				summary: "Authenticate with GitHub",
-				tags: ["auth"],
+				tags: ["Auth"],
 				operationId: "authenticateWithGithub",
 				body: z.object({
 					code: z.string(),

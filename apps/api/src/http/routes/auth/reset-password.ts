@@ -11,7 +11,7 @@ export async function resetPassword(app: FastifyInstance) {
 		{
 			schema: {
 				summary: "Reset password",
-				tags: ["auth"],
+				tags: ["Auth"],
 				operationId: "resetPassword",
 				body: z.object({
 					code: z.string(),
