@@ -6,8 +6,10 @@
 	},
 	"description": "Package for Database",
 	"devDependencies": {
+		"@faker-js/faker": "^9.8.0",
 		"@next-saas-rbac/typescript-config": "workspace:*",
 		"@types/node": "^22.15.29",
+		"bcryptjs": "^3.0.2",
 		"dotenv-cli": "^8.0.0",
 		"prisma": "^6.8.2",
 		"tsup": "^8.5.0",
@@ -19,6 +21,9 @@
 	"main": "src/index.ts",
 	"name": "@next-saas-rbac/database",
 	"packageManager": "pnpm@10.11.0",
+	"prisma": {
+		"seed": "pnpm env:load tsx prisma/seed.ts"
+	},
 	"scripts": {
 		"db:deploy": "prisma migrate deploy",
 		"db:generate": "prisma generate",

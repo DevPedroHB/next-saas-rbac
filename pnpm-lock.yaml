@@ -104,12 +104,18 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(@prisma/client@6.8.2(prisma@6.8.2(typescript@5.8.2))(typescript@5.8.2))
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^9.8.0
+        version: 9.8.0
       '@next-saas-rbac/typescript-config':
         specifier: workspace:*
         version: link:../../config/typescript-config
       '@types/node':
         specifier: ^22.15.29
         version: 22.15.29
+      bcryptjs:
+        specifier: ^3.0.2
+        version: 3.0.2
       dotenv-cli:
         specifier: ^8.0.0
         version: 8.0.0
@@ -333,6 +339,10 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@faker-js/faker@9.8.0':
+    resolution: {integrity: sha512-U9wpuSrJC93jZBxx/Qq2wPjCuYISBueyVUGK7qqdmj7r/nxaxwW8AQDCLeRO7wZnjj94sh3p246cAYjUKuqgfg==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@fastify/ajv-compiler@4.0.2':
     resolution: {integrity: sha512-Rkiu/8wIjpsf46Rr+Fitd3HRP+VsxUFDDeag0hs9L0ksfnwx2g7SPQQTFL0E8Qv+rfXzQOxBJnjUB9ITUDjfWQ==}
@@ -1363,6 +1373,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.5':
     optional: true
+
+  '@faker-js/faker@9.8.0': {}
 
   '@fastify/ajv-compiler@4.0.2':
     dependencies:
