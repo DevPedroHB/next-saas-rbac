@@ -42,7 +42,7 @@ export async function createOrganization(app: FastifyInstance) {
 
 					if (organizationByDomain) {
 						throw new InvalidCredentialsError(
-							"Another organization with same domain already exists.",
+							"Já existe outra organização com o mesmo domínio.",
 						);
 					}
 				}
