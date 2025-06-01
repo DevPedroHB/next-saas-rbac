@@ -1,4 +1,5 @@
 import type { FastifyPluginAsync } from "fastify";
+import { authenticateWithGithub } from "./auth/authenticate-with-github";
 import { authenticateWithPassword } from "./auth/authenticate-with-password";
 import { createAccount } from "./auth/create-account";
 import { getProfile } from "./auth/get-profile";
@@ -11,4 +12,5 @@ export const routes: FastifyPluginAsync = async (app) => {
 	app.register(getProfile);
 	app.register(requestPasswordRecover);
 	app.register(resetPassword);
+	app.register(authenticateWithGithub);
 };
