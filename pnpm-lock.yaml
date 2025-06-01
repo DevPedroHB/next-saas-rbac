@@ -29,6 +29,9 @@ importers:
       '@next-saas-rbac/database':
         specifier: workspace:*
         version: link:../../packages/database
+      bcryptjs:
+        specifier: ^3.0.2
+        version: 3.0.2
       fastify:
         specifier: ^5.3.3
         version: 5.3.3
@@ -45,6 +48,9 @@ importers:
       '@types/node':
         specifier: ^22.15.29
         version: 22.15.29
+      dotenv-cli:
+        specifier: ^8.0.0
+        version: 8.0.0
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(tsx@4.19.4)(typescript@5.8.2)
@@ -593,6 +599,10 @@ packages:
   barrelsby@2.8.1:
     resolution: {integrity: sha512-barN2MVKqUVwmjRy3JLSMYufrBDcdWUc2pjlR0V9P8S3aMvvJ4StFz1GJMzEi5GBoQlnBIWOcCxBDzI2xfaaGw==}
     engines: {node: '>=6.0.0'}
+    hasBin: true
+
+  bcryptjs@3.0.2:
+    resolution: {integrity: sha512-k38b3XOZKv60C4E2hVsXTolJWfkGRMbILBIe2IBITXciy5bOsTKot5kDrf3ZfufQtQOUN5mXceUEpU1rTl9Uog==}
     hasBin: true
 
   brace-expansion@2.0.1:
@@ -1580,6 +1590,8 @@ snapshots:
       '@types/yargs': 17.0.33
       signale: 1.4.0
       yargs: 17.7.2
+
+  bcryptjs@3.0.2: {}
 
   brace-expansion@2.0.1:
     dependencies:
