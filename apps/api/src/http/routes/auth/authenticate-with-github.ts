@@ -1,4 +1,5 @@
 import { prisma } from "@next-saas-rbac/database";
+import { env } from "@next-saas-rbac/env";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
@@ -29,14 +30,11 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 				"https://github.com/login/oauth/access_token",
 			);
 
-			githubOAuthURL.searchParams.set("client_id", process.env.AUTH_GITHUB_ID!);
-			githubOAuthURL.searchParams.set(
-				"client_secret",
-				process.env.AUTH_GITHUB_SECRET!,
-			);
+			githubOAuthURL.searchParams.set("client_id", env.AUTH_GITHUB_ID);
+			githubOAuthURL.searchParams.set("client_secret", env.AUTH_GITHUB_SECRET);
 			githubOAuthURL.searchParams.set(
 				"redirect_uri",
-				process.env.AUTH_GITHUB_REDIRECT_URI!,
+				env.AUTH_GITHUB_REDIRECT_URI,
 			);
 			githubOAuthURL.searchParams.set("code", code);
 
@@ -81,7 +79,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
 			if (email === null) {
 				throw new InvalidCredentialsError(
-					"Your GitHub account must have an email to authenticate.",
+					"Sua conta do GitHub deve ter um e-mail para autenticação.",
 				);
 			}
 

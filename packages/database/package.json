@@ -30,5 +30,6 @@
 		"db:migrate": "pnpm env:load prisma migrate dev --skip-generate",
 		"env:load": "dotenv -e ../../.env --"
 	},
+	"types": "src/index.ts",
 	"version": "1.0.0"
 }

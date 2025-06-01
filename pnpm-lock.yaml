@@ -38,6 +38,9 @@ importers:
       '@next-saas-rbac/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@next-saas-rbac/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -49,10 +52,10 @@ importers:
         version: 5.0.1
       fastify-type-provider-zod:
         specifier: ^4.0.2
-        version: 4.0.2(fastify@5.3.3)(zod@3.25.43)
+        version: 4.0.2(fastify@5.3.3)(zod@3.25.45)
       zod:
         specifier: ^3.25.43
-        version: 3.25.43
+        version: 3.25.45
     devDependencies:
       '@next-saas-rbac/typescript-config':
         specifier: workspace:*
@@ -86,7 +89,7 @@ importers:
         version: 6.7.3
       zod:
         specifier: ^3.25.42
-        version: 3.25.43
+        version: 3.25.45
     devDependencies:
       '@next-saas-rbac/typescript-config':
         specifier: workspace:*
@@ -134,6 +137,34 @@ importers:
       prisma:
         specifier: ^6.8.2
         version: 6.8.2(typescript@5.8.2)
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(tsx@4.19.4)(typescript@5.8.2)(yaml@2.8.0)
+      tsx:
+        specifier: ^4.19.4
+        version: 4.19.4
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/env:
+    dependencies:
+      '@t3-oss/env-core':
+        specifier: ^0.13.6
+        version: 0.13.6(typescript@5.8.2)(zod@3.25.45)
+      zod:
+        specifier: ^3.25.45
+        version: 3.25.45
+    devDependencies:
+      '@next-saas-rbac/typescript-config':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+      '@types/node':
+        specifier: ^22.15.29
+        version: 22.15.29
+      dotenv-cli:
+        specifier: ^8.0.0
+        version: 8.0.0
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(tsx@4.19.4)(typescript@5.8.2)(yaml@2.8.0)
@@ -560,6 +591,23 @@ packages:
     resolution: {integrity: sha512-Wq2zpapRYLfi4aKxf2Xff0tN+7slj2d4R87WEzqw7ZLsVvO5zwYCIuEGSZYiK41+GlwUo1HiR+GdkLEJnCKTCw==}
     cpu: [x64]
     os: [win32]
+
+  '@t3-oss/env-core@0.13.6':
+    resolution: {integrity: sha512-rH7FgcB1YGbv/tvv7mdJAxnNvRkK/gEqdVYBwO1AVvaWOTNuftqskxkEYyhM2O+lkNPJmTq5YBE7H+Unl7CLjg==}
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
 
   '@tsconfig/node24@24.0.1':
     resolution: {integrity: sha512-3+IXshza3bIrT0tbHBr9CixQDVf4iBf0HTR0hCYowhpLqkzJjswu3UY8aZWjRXZep31kYB+o2SQeD8KwIoUHYw==}
@@ -1401,8 +1449,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.25.43:
-    resolution: {integrity: sha512-KrQFEkfox9WLfYCOksqEWjf97QdgSC1YJSqxJxnWz0l+BW8mN2PQ+yjshL8RC7RC5p5YOlUCLyTDNaf++QbPtA==}
+  zod@3.25.45:
+    resolution: {integrity: sha512-kv1swJBZqv98NQibL0oVvkQE8rXT+6qGNM1FpZkFcJG2jnz4vbtu48bgaitp85CaBPLSKXibrEsU7MzJoVoZAA==}
 
 snapshots:
 
@@ -1720,6 +1768,11 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
+  '@t3-oss/env-core@0.13.6(typescript@5.8.2)(zod@3.25.45)':
+    optionalDependencies:
+      typescript: 5.8.2
+      zod: 3.25.45
+
   '@tsconfig/node24@24.0.1': {}
 
   '@types/estree@1.0.7': {}
@@ -1965,12 +2018,12 @@ snapshots:
 
   fastify-plugin@5.0.1: {}
 
-  fastify-type-provider-zod@4.0.2(fastify@5.3.3)(zod@3.25.43):
+  fastify-type-provider-zod@4.0.2(fastify@5.3.3)(zod@3.25.45):
     dependencies:
       '@fastify/error': 4.1.0
       fastify: 5.3.3
-      zod: 3.25.43
-      zod-to-json-schema: 3.24.5(zod@3.25.43)
+      zod: 3.25.45
+      zod-to-json-schema: 3.24.5(zod@3.25.45)
 
   fastify@5.3.3:
     dependencies:
@@ -2556,8 +2609,8 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 21.1.1
 
-  zod-to-json-schema@3.24.5(zod@3.25.43):
+  zod-to-json-schema@3.24.5(zod@3.25.45):
     dependencies:
-      zod: 3.25.43
+      zod: 3.25.45
 
-  zod@3.25.43: {}
+  zod@3.25.45: {}

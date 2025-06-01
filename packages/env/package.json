@@ -1,25 +1,25 @@
 {
 	"author": "Pedro Henrique Bérgamo",
 	"dependencies": {
-		"@casl/ability": "^6.7.3",
-		"zod": "^3.25.42"
+		"@t3-oss/env-core": "^0.13.6",
+		"zod": "^3.25.45"
 	},
-	"description": "Package for Role Based Access Control",
+	"description": "Package for Environment Variables",
 	"devDependencies": {
 		"@next-saas-rbac/typescript-config": "workspace:*",
 		"@types/node": "^22.15.29",
-		"barrelsby": "^2.8.1",
+		"dotenv-cli": "^8.0.0",
 		"tsup": "^8.5.0",
 		"tsx": "^4.19.4",
 		"typescript": "5.8.2"
 	},
-	"keywords": ["rbac", "abac"],
+	"keywords": ["env", "environment", "variables"],
 	"license": "MIT",
 	"main": "src/index.ts",
-	"name": "@next-saas-rbac/auth",
+	"name": "@next-saas-rbac/env",
 	"packageManager": "pnpm@10.11.0",
 	"scripts": {
-		"generate-barrels": "barrelsby -c barrelsby.json"
+		"env:load": "dotenv -e ../../.env --"
 	},
 	"types": "src/index.ts",
 	"version": "1.0.0"
