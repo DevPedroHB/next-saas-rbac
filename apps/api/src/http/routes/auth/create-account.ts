@@ -3,6 +3,7 @@ import { genSaltSync, hashSync } from "bcryptjs";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
+import { InvalidCredentialsError } from "../errors/invalid-credentials-error";
 
 export async function createAccount(app: FastifyInstance) {
 	app.withTypeProvider<ZodTypeProvider>().post(
@@ -18,9 +19,6 @@ export async function createAccount(app: FastifyInstance) {
 					password: z.string().min(6).max(32),
 				}),
 				response: {
-					400: z.object({
-						message: z.string(),
-					}),
 					201: z.object({
 						message: z.string(),
 					}),
@@ -35,9 +33,7 @@ export async function createAccount(app: FastifyInstance) {
 			});
 
 			if (userWithSameEmail) {
-				return reply.status(400).send({
-					message: "User with same email already exists.",
-				});
+				throw new InvalidCredentialsError();
 			}
 
 			const [, domain] = email.split("@");

@@ -2,6 +2,7 @@ import { prisma } from "@next-saas-rbac/database";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
+import { UnauthorizedError } from "../errors/unauthorized-error";
 
 export async function getProfile(app: FastifyInstance) {
 	app.withTypeProvider<ZodTypeProvider>().get(
@@ -13,9 +14,6 @@ export async function getProfile(app: FastifyInstance) {
 				operationId: "getProfile",
 				params: z.object({}),
 				response: {
-					400: z.object({
-						message: z.string(),
-					}),
 					200: z.object({
 						user: z.object({
 							id: z.string(),
@@ -41,9 +39,7 @@ export async function getProfile(app: FastifyInstance) {
 			});
 
 			if (!user) {
-				return reply.status(400).send({
-					message: "User not found.",
-				});
+				throw new UnauthorizedError();
 			}
 
 			return reply.status(200).send({
