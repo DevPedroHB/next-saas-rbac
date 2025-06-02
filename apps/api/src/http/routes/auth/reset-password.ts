@@ -1,20 +1,19 @@
 import { prisma } from "@next-saas-rbac/database";
-import { genSaltSync, hashSync } from "bcryptjs";
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { genSalt, hash } from "bcryptjs";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { UnauthorizedError } from "../errors/unauthorized-error";
+import { NotAllowedError } from "../errors/not-allowed-error";
 
-export async function resetPassword(app: FastifyInstance) {
-	app.withTypeProvider<ZodTypeProvider>().put(
+export const resetPasswordController: FastifyPluginAsyncZod = async (app) => {
+	app.put(
 		"/password/reset",
 		{
 			schema: {
 				summary: "Reset password",
-				tags: ["Auth"],
+				tags: ["Authentication"],
 				operationId: "resetPassword",
 				body: z.object({
-					code: z.string(),
+					code: z.string().uuid(),
 					password: z.string().min(6).max(32),
 				}),
 				response: {
@@ -27,28 +26,36 @@ export async function resetPassword(app: FastifyInstance) {
 		async (request, reply) => {
 			const { code, password } = request.body;
 
-			const tokenFromCode = await prisma.token.findUnique({
+			const token = await prisma.token.findUnique({
 				where: { id: code },
 			});
 
-			if (!tokenFromCode) {
-				throw new UnauthorizedError();
+			if (!token) {
+				throw new NotAllowedError();
 			}
 
-			const passwordHash = await hashSync(password, genSaltSync(10));
+			const saltRounds = await genSalt(10);
+			const passwordHash = await hash(password, saltRounds);
 
-			await prisma.user.update({
-				where: { id: tokenFromCode.userId },
-				data: { passwordHash },
-			});
-
-			await prisma.token.delete({
-				where: { id: tokenFromCode.id },
-			});
+			await prisma.$transaction([
+				prisma.user.update({
+					where: {
+						id: token.userId,
+					},
+					data: {
+						passwordHash,
+					},
+				}),
+				prisma.token.delete({
+					where: {
+						id: code,
+					},
+				}),
+			]);
 
 			return reply.status(204).send({
 				message: "Senha alterada com sucesso.",
 			});
 		},
 	);
-}
+};

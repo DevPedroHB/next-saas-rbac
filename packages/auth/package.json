@@ -2,7 +2,8 @@
 	"author": "Pedro Henrique Bérgamo",
 	"dependencies": {
 		"@casl/ability": "^6.7.3",
-		"zod": "^3.25.42"
+		"@next-saas-rbac/database": "workspace:*",
+		"zod": "^3.25.46"
 	},
 	"description": "Package for Role Based Access Control",
 	"devDependencies": {
@@ -13,7 +14,10 @@
 		"tsx": "^4.19.4",
 		"typescript": "5.8.2"
 	},
-	"keywords": ["rbac", "abac"],
+	"keywords": [
+		"rbac",
+		"abac"
+	],
 	"license": "MIT",
 	"main": "src/index.ts",
 	"name": "@next-saas-rbac/auth",

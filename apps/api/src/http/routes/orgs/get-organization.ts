@@ -3,32 +3,31 @@ import { zpt } from "@next-saas-rbac/database";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 
-export const getMembershipController: FastifyPluginAsyncZod = async (app) => {
+export const getOrganizationController: FastifyPluginAsyncZod = async (app) => {
 	app.register(authMiddleware).get(
-		"/organizations/:slug/membership",
+		"/organizations/:slug",
 		{
 			schema: {
-				summary: "Get membership",
+				summary: "Get details from organization",
 				tags: ["Organization"],
-				operationId: "getMembership",
+				operationId: "getOrganization",
 				security: [{ bearerAuth: [] }],
 				params: zpt.OrganizationSchema.pick({
 					slug: true,
 				}),
 				response: {
 					200: z.object({
-						membership: zpt.MemberSchema,
+						organization: zpt.OrganizationSchema,
 					}),
 				},
 			},
 		},
 		async (request, reply) => {
 			const { slug } = request.params;
-
-			const { membership } = await request.getUserMembership(slug);
+			const { organization } = await request.getUserMembership(slug);
 
 			return reply.status(200).send({
-				membership,
+				organization,
 			});
 		},
 	);

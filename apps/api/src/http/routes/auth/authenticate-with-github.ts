@@ -1,17 +1,18 @@
 import { prisma } from "@next-saas-rbac/database";
 import { env } from "@next-saas-rbac/env";
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { InvalidCredentialsError } from "../errors/invalid-credentials-error";
 
-export async function authenticateWithGithub(app: FastifyInstance) {
-	app.withTypeProvider<ZodTypeProvider>().post(
+export const authenticateWithGithubController: FastifyPluginAsyncZod = async (
+	app,
+) => {
+	app.post(
 		"/sessions/github",
 		{
 			schema: {
-				summary: "Authenticate with GitHub",
-				tags: ["Auth"],
+				summary: "Authenticate with Github",
+				tags: ["Authentication"],
 				operationId: "authenticateWithGithub",
 				body: z.object({
 					code: z.string(),
@@ -47,7 +48,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
 			const githubAccessTokenData = await githubAccessTokenResponse.json();
 
-			const { access_token: accessToken } = z
+			const { access_token: githubAccessToken } = z
 				.object({
 					access_token: z.string(),
 					token_type: z.literal("bearer"),
@@ -57,7 +58,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
 			const githubUserResponse = await fetch("https://api.github.com/user", {
 				headers: {
-					Authorization: `Bearer ${accessToken}`,
+					Authorization: `Bearer ${githubAccessToken}`,
 				},
 			});
 
@@ -79,7 +80,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
 			if (email === null) {
 				throw new InvalidCredentialsError(
-					"Sua conta do GitHub deve ter um e-mail para autenticação.",
+					"Your GitHub account must have an email to authenticate.",
 				);
 			}
 
@@ -126,8 +127,9 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 					},
 				},
 			);
-
-			return reply.status(201).send({ token });
+			return reply.status(201).send({
+				token,
+			});
 		},
 	);
-}
+};

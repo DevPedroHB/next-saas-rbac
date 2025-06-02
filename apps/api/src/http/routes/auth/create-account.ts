@@ -1,21 +1,21 @@
-import { prisma } from "@next-saas-rbac/database";
-import { genSaltSync, hashSync } from "bcryptjs";
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { prisma, zpt } from "@next-saas-rbac/database";
+import { genSalt, hash } from "bcryptjs";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { InvalidCredentialsError } from "../errors/invalid-credentials-error";
+import { AlreadyExistsError } from "../errors/already-exists-error";
 
-export async function createAccount(app: FastifyInstance) {
-	app.withTypeProvider<ZodTypeProvider>().post(
+export const createAccountController: FastifyPluginAsyncZod = async (app) => {
+	app.post(
 		"/users",
 		{
 			schema: {
 				summary: "Create a new account",
-				tags: ["Auth"],
+				tags: ["Authentication"],
 				operationId: "createAccount",
-				body: z.object({
-					name: z.string(),
-					email: z.string().email(),
+				body: zpt.UserSchema.pick({
+					name: true,
+					email: true,
+				}).extend({
 					password: z.string().min(6).max(32),
 				}),
 				response: {
@@ -33,29 +33,27 @@ export async function createAccount(app: FastifyInstance) {
 			});
 
 			if (userWithSameEmail) {
-				throw new InvalidCredentialsError();
+				throw new AlreadyExistsError();
 			}
 
 			const [, domain] = email.split("@");
 
-			const autoJoinOrganization = await prisma.organization.findFirst({
-				where: {
-					domain,
-					shouldAttachUsersByDomain: true,
-				},
+			const organization = await prisma.organization.findFirst({
+				where: { domain, shouldAttachUsersByDomain: true },
 			});
 
-			const passwordHash = await hashSync(password, genSaltSync(10));
+			const saltRounds = await genSalt(10);
+			const passwordHash = await hash(password, saltRounds);
 
 			await prisma.user.create({
 				data: {
 					name,
 					email,
 					passwordHash,
-					member_on: autoJoinOrganization
+					member_on: organization
 						? {
 								create: {
-									organizationId: autoJoinOrganization.id,
+									organizationId: organization.id,
 								},
 							}
 						: undefined,
@@ -67,4 +65,4 @@ export async function createAccount(app: FastifyInstance) {
 			});
 		},
 	);
-}
+};

@@ -5,7 +5,7 @@ import {
 	createMongoAbility,
 } from "@casl/ability";
 import { z } from "zod";
-import type { User } from "./models/user";
+import type { UserAuth } from "./models/user-auth";
 import { permissions } from "./permissions";
 import { billingSubject } from "./subjects/billing-subject";
 import { inviteSubject } from "./subjects/invite-subject";
@@ -28,7 +28,7 @@ export type AppAbility = MongoAbility<AppAbilities>;
 
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
 
-export function defineAbilityFor(user: User) {
+export function defineAbilityFor(user: UserAuth) {
 	const builder = new AbilityBuilder(createAppAbility);
 
 	if (typeof permissions[user.role] !== "function") {

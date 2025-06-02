@@ -1,20 +1,23 @@
-import { prisma } from "@next-saas-rbac/database";
-import { compareSync } from "bcryptjs";
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { prisma, zpt } from "@next-saas-rbac/database";
+import { compare } from "bcryptjs";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { InvalidCredentialsError } from "../errors/invalid-credentials-error";
+import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 
-export async function authenticateWithPassword(app: FastifyInstance) {
-	app.withTypeProvider<ZodTypeProvider>().post(
+export const authenticateWithPasswordController: FastifyPluginAsyncZod = async (
+	app,
+) => {
+	app.post(
 		"/sessions/password",
 		{
 			schema: {
-				summary: "Authenticate with password",
-				tags: ["Auth"],
+				summary: "Authenticate with e-mail & password",
+				tags: ["Authentication"],
 				operationId: "authenticateWithPassword",
-				body: z.object({
-					email: z.string().email(),
+				body: zpt.UserSchema.pick({
+					email: true,
+				}).extend({
 					password: z.string().min(6).max(32),
 				}),
 				response: {
@@ -27,24 +30,21 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 		async (request, reply) => {
 			const { email, password } = request.body;
 
-			const userFromEmail = await prisma.user.findUnique({
+			const user = await prisma.user.findUnique({
 				where: { email },
 			});
 
-			if (!userFromEmail) {
+			if (!user) {
 				throw new InvalidCredentialsError();
 			}
 
-			if (userFromEmail.passwordHash === null) {
-				throw new InvalidCredentialsError(
-					"O usuário não possui uma senha, utilize o login social.",
+			if (user.passwordHash === null) {
+				throw new ResourceNotFoundError(
+					"User does not have a password, use, social login.",
 				);
 			}
 
-			const isPasswordValid = await compareSync(
-				password,
-				userFromEmail.passwordHash,
-			);
+			const isPasswordValid = await compare(password, user.passwordHash);
 
 			if (!isPasswordValid) {
 				throw new InvalidCredentialsError();
@@ -52,7 +52,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 
 			const token = await reply.jwtSign(
 				{
-					sub: userFromEmail.id,
+					sub: user.id,
 				},
 				{
 					sign: {
@@ -66,4 +66,4 @@ export async function authenticateWithPassword(app: FastifyInstance) {
 			});
 		},
 	);
-}
+};

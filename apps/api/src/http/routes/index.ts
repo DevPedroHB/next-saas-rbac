@@ -1,20 +1,25 @@
-import type { FastifyPluginAsync } from "fastify";
-import { authenticateWithGithub } from "./auth/authenticate-with-github";
-import { authenticateWithPassword } from "./auth/authenticate-with-password";
-import { createAccount } from "./auth/create-account";
-import { getProfile } from "./auth/get-profile";
-import { requestPasswordRecover } from "./auth/request-password-recover";
-import { resetPassword } from "./auth/reset-password";
-import { createOrganization } from "./orgs/create-organization";
-import { getMembership } from "./orgs/get-membership";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { authenticateWithGithubController } from "./auth/authenticate-with-github";
+import { authenticateWithPasswordController } from "./auth/authenticate-with-password";
+import { createAccountController } from "./auth/create-account";
+import { getProfileController } from "./auth/get-profile";
+import { requestPasswordRecoverController } from "./auth/request-password-recover";
+import { resetPasswordController } from "./auth/reset-password";
+import { createOrganizationController } from "./orgs/create-organization";
+import { getMembershipController } from "./orgs/get-membership";
+import { getOrganizationController } from "./orgs/get-organization";
+import { getOrganizationsController } from "./orgs/get-organizations";
 
-export const routes: FastifyPluginAsync = async (app) => {
-	app.register(createAccount);
-	app.register(authenticateWithPassword);
-	app.register(getProfile);
-	app.register(requestPasswordRecover);
-	app.register(resetPassword);
-	app.register(authenticateWithGithub);
-	app.register(createOrganization);
-	app.register(getMembership);
+export const routes: FastifyPluginAsyncZod = async (app) => {
+	app.register(createAccountController);
+	app.register(authenticateWithPasswordController);
+	app.register(authenticateWithGithubController);
+	app.register(getProfileController);
+	app.register(requestPasswordRecoverController);
+	app.register(resetPasswordController);
+
+	app.register(createOrganizationController);
+	app.register(getMembershipController);
+	app.register(getOrganizationController);
+	app.register(getOrganizationsController);
 };

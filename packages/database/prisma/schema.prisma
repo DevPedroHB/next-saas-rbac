@@ -3,6 +3,24 @@ generator client {
   output   = "../generated/prisma"
 }
 
+generator zod {
+  provider                         = "zod-prisma-types"
+  output                           = "../generated/zod"
+  useMultipleFiles                 = true
+  writeBarrelFiles                 = true
+  createInputTypes                 = true
+  createModelTypes                 = true
+  addInputTypeValidation           = true
+  addIncludeType                   = true
+  addSelectType                    = true
+  validateWhereUniqueInput         = true
+  createOptionalDefaultValuesTypes = true
+  createRelationValuesTypes        = true
+  createPartialTypes               = true
+  useDefaultValidators             = true
+  coerceDate                       = true
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -10,10 +28,10 @@ datasource db {
 
 model User {
   id           String   @id @default(uuid())
-  name         String?
-  email        String   @unique
+  name         String? /// @zod.string.min(3)
+  email        String   @unique /// @zod.string.email()
   passwordHash String?  @map("password_hash")
-  avatarUrl    String?  @map("avatar_url")
+  avatarUrl    String?  @map("avatar_url") /// @zod.string.url()
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
@@ -35,7 +53,7 @@ model Token {
   id        String    @id @default(uuid())
   type      TokenType
   createdAt DateTime  @default(now()) @map("created_at")
-  userId    String    @map("user_id")
+  userId    String    @map("user_id") /// @zod.string.uuid()
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
@@ -50,7 +68,7 @@ model Account {
   id                String          @id @default(uuid())
   provider          AccountProvider
   providerAccountId String          @unique @map("provider_account_id")
-  userId            String          @map("user_id")
+  userId            String          @map("user_id") /// @zod.string.uuid()
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
@@ -66,11 +84,11 @@ enum Role {
 
 model Invite {
   id             String   @id @default(uuid())
-  email          String
+  email          String /// @zod.string.email()
   role           Role
   createdAt      DateTime @default(now()) @map("created_at")
-  authorId       String?  @map("author_id")
-  organizationId String   @map("organization_id")
+  authorId       String?  @map("author_id") /// @zod.string.uuid()
+  organizationId String   @map("organization_id") /// @zod.string.uuid()
 
   author       User?        @relation(fields: [authorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -83,8 +101,8 @@ model Invite {
 model Member {
   id             String @id @default(uuid())
   role           Role   @default(MEMBER)
-  organizationId String @map("organization_id")
-  userId         String @map("user_id")
+  organizationId String @map("organization_id") /// @zod.string.uuid()
+  userId         String @map("user_id") /// @zod.string.uuid()
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -96,13 +114,13 @@ model Member {
 model Organization {
   id                        String   @id @default(uuid())
   name                      String
-  slug                      String   @unique
+  slug                      String   @unique /// @zod.string.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: "O slug deve conter apenas letras minúsculas, números e hífens, sem espaços nem hífen no início/fim." })
   domain                    String?  @unique
   shouldAttachUsersByDomain Boolean  @default(false) @map("should_attach_users_by_domain")
-  avatarUrl                 String?  @map("avatar_url")
+  avatarUrl                 String?  @map("avatar_url") /// @zod.string.url()
   createdAt                 DateTime @default(now()) @map("created_at")
   updatedAt                 DateTime @updatedAt @map("updated_at")
-  ownerId                   String   @map("owner_id")
+  ownerId                   String   @map("owner_id") /// @zod.string.uuid()
 
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
@@ -117,12 +135,12 @@ model Project {
   id             String   @id @default(uuid())
   name           String
   description    String
-  slug           String   @unique
-  avatarUrl      String?  @map("avatar_url")
+  slug           String   @unique /// @zod.string.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: "O slug deve conter apenas letras minúsculas, números e hífens, sem espaços nem hífen no início/fim." })
+  avatarUrl      String?  @map("avatar_url") /// @zod.string.url()
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
-  organizationId String   @map("organization_id")
-  ownerId        String   @map("owner_id")
+  organizationId String   @map("organization_id") /// @zod.string.uuid()
+  ownerId        String   @map("owner_id") /// @zod.string.uuid()
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)

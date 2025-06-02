@@ -2,7 +2,8 @@
 	"author": "Pedro Henrique Bérgamo",
 	"dependencies": {
 		"@prisma/client": "6.8.2",
-		"@prisma/extension-accelerate": "^2.0.1"
+		"@prisma/extension-accelerate": "^2.0.1",
+		"zod": "^3.25.46"
 	},
 	"description": "Package for Database",
 	"devDependencies": {
@@ -14,9 +15,13 @@
 		"prisma": "^6.8.2",
 		"tsup": "^8.5.0",
 		"tsx": "^4.19.4",
-		"typescript": "5.8.2"
+		"typescript": "5.8.2",
+		"zod-prisma-types": "^3.2.4"
 	},
-	"keywords": ["database", "prisma"],
+	"keywords": [
+		"database",
+		"prisma"
+	],
 	"license": "MIT",
 	"main": "src/index.ts",
 	"name": "@next-saas-rbac/database",

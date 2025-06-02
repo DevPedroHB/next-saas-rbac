@@ -1,55 +1,34 @@
-import { auth } from "@/http/middlewares/auth";
-import { prisma } from "@next-saas-rbac/database";
-import type { FastifyInstance } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { authMiddleware } from "@/http/middlewares/auth-middleware";
+import { zpt } from "@next-saas-rbac/database";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { UnauthorizedError } from "../errors/unauthorized-error";
 
-export async function getProfile(app: FastifyInstance) {
-	app
-		.withTypeProvider<ZodTypeProvider>()
-		.register(auth)
-		.get(
-			"/profile",
-			{
-				schema: {
-					summary: "Get authenticated user profile",
-					tags: ["Auth"],
-					operationId: "getProfile",
-					security: [{ bearerAuth: [] }],
-					params: z.object({}),
-					response: {
-						200: z.object({
-							user: z.object({
-								id: z.string(),
-								name: z.string().nullable(),
-								email: z.string(),
-								avatarUrl: z.string().nullable(),
-							}),
+export const getProfileController: FastifyPluginAsyncZod = async (app) => {
+	app.register(authMiddleware).get(
+		"/profile",
+		{
+			schema: {
+				summary: "Get authenticated user profile",
+				tags: ["Authentication"],
+				operationId: "getProfile",
+				security: [{ bearerAuth: [] }],
+				response: {
+					200: z.object({
+						user: zpt.UserSchema.omit({
+							passwordHash: true,
 						}),
-					},
+					}),
 				},
 			},
-			async (request, reply) => {
-				const userId = await request.getCurrentUserId();
+		},
+		async (request, reply) => {
+			const { user } = await request.getAuthenticatedUser();
 
-				const user = await prisma.user.findUnique({
-					select: {
-						id: true,
-						name: true,
-						email: true,
-						avatarUrl: true,
-					},
-					where: { id: userId },
-				});
+			const { passwordHash: _, ...userWithoutPassword } = user;
 
-				if (!user) {
-					throw new UnauthorizedError();
-				}
-
-				return reply.status(200).send({
-					user,
-				});
-			},
-		);
-}
+			return reply.status(200).send({
+				user: userWithoutPassword,
+			});
+		},
+	);
+};

@@ -1,5 +1,5 @@
+import { zpt } from "@next-saas-rbac/database";
 import { z } from "zod";
-import { projectSchema } from "../models/project";
 
 export const projectSubject = z.tuple([
 	z.union([
@@ -9,7 +9,12 @@ export const projectSubject = z.tuple([
 		z.literal("update"),
 		z.literal("delete"),
 	]),
-	z.union([z.literal("Project"), projectSchema]),
+	z.union([
+		z.literal("Project"),
+		zpt.ProjectSchema.extend({
+			__typename: z.literal("Project").default("Project"),
+		}),
+	]),
 ]);
 
 export type ProjectSubject = z.infer<typeof projectSubject>;

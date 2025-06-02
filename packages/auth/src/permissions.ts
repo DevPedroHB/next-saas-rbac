@@ -1,9 +1,12 @@
 import type { AbilityBuilder } from "@casl/ability";
+import type { Role } from "@next-saas-rbac/database";
 import type { AppAbility } from "./app-ability";
-import type { User } from "./models/user";
-import type { Role } from "./roles";
+import type { UserAuth } from "./models/user-auth";
 
-type Permissions = (user: User, builder: AbilityBuilder<AppAbility>) => void;
+type Permissions = (
+	user: UserAuth,
+	builder: AbilityBuilder<AppAbility>,
+) => void;
 
 export const permissions: Record<Role, Permissions> = {
 	ADMIN(user, { can, cannot }) {

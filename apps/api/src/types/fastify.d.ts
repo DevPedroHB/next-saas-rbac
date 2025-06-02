@@ -1,11 +1,11 @@
-import type { Member, Organization } from "@next-saas-rbac/database";
+import type { Member, Organization, User } from "@next-saas-rbac/database";
 import "fastify";
 
 declare module "fastify" {
 	export interface FastifyRequest {
-		getCurrentUserId(): Promise<string>;
+		getAuthenticatedUser(): Promise<{ user: User }>;
 		getUserMembership(
 			slug: string,
-		): Promise<{ organization: Organization; membership: Member }>;
+		): Promise<{ user: User; membership: Member; organization: Organization }>;
 	}
 }

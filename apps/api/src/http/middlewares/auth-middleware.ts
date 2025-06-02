@@ -1,26 +1,35 @@
 import { prisma } from "@next-saas-rbac/database";
-import type { FastifyInstance } from "fastify";
 import fastifyPlugin from "fastify-plugin";
 import { UnauthorizedError } from "../routes/errors/unauthorized-error";
 
-export const auth = fastifyPlugin(async (app: FastifyInstance) => {
+export const authMiddleware = fastifyPlugin(async (app) => {
 	app.addHook("preHandler", async (request) => {
-		request.getCurrentUserId = async () => {
+		request.getAuthenticatedUser = async () => {
 			try {
 				const { sub } = await request.jwtVerify<{ sub: string }>();
 
-				return sub;
+				const user = await prisma.user.findUnique({
+					where: { id: sub },
+				});
+
+				if (!user) {
+					throw new UnauthorizedError();
+				}
+
+				return {
+					user,
+				};
 			} catch {
 				throw new UnauthorizedError();
 			}
 		};
 
 		request.getUserMembership = async (slug: string) => {
-			const userId = await request.getCurrentUserId();
+			const { user } = await request.getAuthenticatedUser();
 
 			const member = await prisma.member.findFirst({
 				where: {
-					userId,
+					userId: user.id,
 					organization: {
 						slug,
 					},
@@ -31,12 +40,15 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 			});
 
 			if (!member) {
-				throw new UnauthorizedError("Você não é membro desta organização.");
+				throw new UnauthorizedError(
+					"You're not a member of this organization.",
+				);
 			}
 
 			const { organization, ...membership } = member;
 
 			return {
+				user,
 				organization,
 				membership,
 			};
