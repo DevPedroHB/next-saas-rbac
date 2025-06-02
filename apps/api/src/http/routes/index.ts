@@ -10,6 +10,7 @@ import { getMembershipController } from "./orgs/get-membership";
 import { getOrganizationController } from "./orgs/get-organization";
 import { getOrganizationsController } from "./orgs/get-organizations";
 import { shutdownOrganizationController } from "./orgs/shutdown-organization";
+import { transferOrganizationController } from "./orgs/transfer-organization";
 import { updateOrganizationController } from "./orgs/update-organization";
 
 export const routes: FastifyPluginAsyncZod = async (app) => {
@@ -26,4 +27,5 @@ export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(getOrganizationsController);
 	app.register(updateOrganizationController);
 	app.register(shutdownOrganizationController);
+	app.register(transferOrganizationController);
 };
