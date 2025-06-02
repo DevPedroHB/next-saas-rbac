@@ -12,6 +12,11 @@ import { getOrganizationsController } from "./orgs/get-organizations";
 import { shutdownOrganizationController } from "./orgs/shutdown-organization";
 import { transferOrganizationController } from "./orgs/transfer-organization";
 import { updateOrganizationController } from "./orgs/update-organization";
+import { createProjectController } from "./projects/create-project";
+import { deleteProjectController } from "./projects/delete-project";
+import { getProjectController } from "./projects/get-project";
+import { getProjectsController } from "./projects/get-projects";
+import { updateProjectController } from "./projects/update-project";
 
 export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(createAccountController);
@@ -28,4 +33,10 @@ export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(updateOrganizationController);
 	app.register(shutdownOrganizationController);
 	app.register(transferOrganizationController);
+
+	app.register(createProjectController);
+	app.register(deleteProjectController);
+	app.register(getProjectController);
+	app.register(getProjectsController);
+	app.register(updateProjectController);
 };

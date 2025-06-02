@@ -1,4 +1,3 @@
-import { getUserPermissions } from "@/functions/get-user-permissions";
 import { authMiddleware } from "@/http/middlewares/auth-middleware";
 import { organizationAuthSchema } from "@next-saas-rbac/auth/src/models/organization-auth";
 import { prisma, zpt } from "@next-saas-rbac/database";
@@ -36,10 +35,8 @@ export const updateOrganizationController: FastifyPluginAsyncZod = async (
 		async (request, reply) => {
 			const { slug } = request.params;
 
-			const { membership, organization } =
-				await request.getUserMembership(slug);
+			const { organization, ability } = await request.getUserMembership(slug);
 
-			const ability = getUserPermissions(membership.userId, membership.role);
 			const organizationAuth = organizationAuthSchema.parse(organization);
 
 			if (ability.cannot("update", organizationAuth)) {

@@ -48,6 +48,7 @@ app.register(fastifySwagger, {
 				description: "Authentication related end-points",
 			},
 			{ name: "Organization", description: "Organization related end-points" },
+			{ name: "Project", description: "Organization related end-points" },
 		],
 		components: {
 			securitySchemes: {

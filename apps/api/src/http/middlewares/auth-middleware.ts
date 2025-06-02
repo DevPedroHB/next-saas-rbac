@@ -1,3 +1,4 @@
+import { getUserPermissions } from "@/functions/get-user-permissions";
 import { prisma } from "@next-saas-rbac/database";
 import fastifyPlugin from "fastify-plugin";
 import { UnauthorizedError } from "../routes/errors/unauthorized-error";
@@ -45,10 +46,13 @@ export const authMiddleware = fastifyPlugin(async (app) => {
 
 			const { organization, ...membership } = member;
 
+			const ability = getUserPermissions(membership.userId, membership.role);
+
 			return {
 				user,
 				organization,
 				membership,
+				ability,
 			};
 		};
 	});
