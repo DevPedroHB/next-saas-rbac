@@ -80,7 +80,7 @@ export const authenticateWithGithubController: FastifyPluginAsyncZod = async (
 
 			if (email === null) {
 				throw new InvalidCredentialsError(
-					"Your GitHub account must have an email to authenticate.",
+					"Sua conta do GitHub deve ter um e-mail para autenticação.",
 				);
 			}
 

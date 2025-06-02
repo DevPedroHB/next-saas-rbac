@@ -1,5 +1,5 @@
-import { zpt } from "@next-saas-rbac/database";
 import { z } from "zod";
+import { organizationAuthSchema } from "../models/organization-auth";
 
 export const organizationSubject = z.tuple([
 	z.union([
@@ -8,12 +8,7 @@ export const organizationSubject = z.tuple([
 		z.literal("delete"),
 		z.literal("transfer_ownership"),
 	]),
-	z.union([
-		z.literal("Organization"),
-		zpt.OrganizationSchema.extend({
-			__typename: z.literal("Organization").default("Organization"),
-		}),
-	]),
+	z.union([z.literal("Organization"), organizationAuthSchema]),
 ]);
 
 export type OrganizationSubject = z.infer<typeof organizationSubject>;

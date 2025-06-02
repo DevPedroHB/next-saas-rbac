@@ -22,8 +22,8 @@ export const createOrganizationController: FastifyPluginAsyncZod = async (
 					shouldAttachUsersByDomain: true,
 				}),
 				response: {
-					200: z.object({
-						organizationId: z.string(),
+					201: z.object({
+						message: z.string(),
 					}),
 				},
 			},
@@ -41,12 +41,12 @@ export const createOrganizationController: FastifyPluginAsyncZod = async (
 
 				if (organizationWithSameDomain) {
 					throw new AlreadyExistsError(
-						"Another organization with same domain already exists.",
+						"Já existe outra organização com o mesmo domínio.",
 					);
 				}
 			}
 
-			const organization = await prisma.organization.create({
+			await prisma.organization.create({
 				data: {
 					name,
 					slug: slugify(name),
@@ -62,8 +62,8 @@ export const createOrganizationController: FastifyPluginAsyncZod = async (
 				},
 			});
 
-			return reply.status(200).send({
-				organizationId: organization.id,
+			return reply.status(201).send({
+				message: "Organização criada com sucesso.",
 			});
 		},
 	);

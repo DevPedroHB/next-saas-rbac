@@ -40,7 +40,7 @@ export const authenticateWithPasswordController: FastifyPluginAsyncZod = async (
 
 			if (user.passwordHash === null) {
 				throw new ResourceNotFoundError(
-					"User does not have a password, use, social login.",
+					"O usuário não possui senha, utilize login social.",
 				);
 			}
 
