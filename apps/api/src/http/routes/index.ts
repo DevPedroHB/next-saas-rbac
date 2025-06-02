@@ -5,6 +5,9 @@ import { createAccountController } from "./auth/create-account";
 import { getProfileController } from "./auth/get-profile";
 import { requestPasswordRecoverController } from "./auth/request-password-recover";
 import { resetPasswordController } from "./auth/reset-password";
+import { getMembersController } from "./members/get-members";
+import { removeMemberController } from "./members/remove-member";
+import { updateMemberController } from "./members/update-member";
 import { createOrganizationController } from "./orgs/create-organization";
 import { getMembershipController } from "./orgs/get-membership";
 import { getOrganizationController } from "./orgs/get-organization";
@@ -39,4 +42,8 @@ export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(getProjectController);
 	app.register(getProjectsController);
 	app.register(updateProjectController);
+
+	app.register(getMembersController);
+	app.register(updateMemberController);
+	app.register(removeMemberController);
 };
