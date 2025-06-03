@@ -1,6 +1,6 @@
 "use client";
 
-import { signInAction } from "@/actions/sign-in-action";
+import { signInAction } from "@/actions/auth/sign-in-action";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -21,15 +21,10 @@ export function SignInForm() {
 	const { form, handleSubmitWithAction, resetFormAndAction } =
 		useHookFormAction(signInAction, zodResolver(signInSchema), {
 			actionProps: {
-				onSuccess({ data }) {
-					toast.success(data?.message);
-
-					resetFormAndAction();
-				},
-				onError({ error }) {
-					toast.error(
-						error.thrownError?.message ?? "Erro ao realizar o login.",
-					);
+				onSettled: ({ result }) => {
+					result.serverError || result.serverError
+						? toast.error("Erro ao realizar o login.")
+						: toast.success("Login realizado com sucesso.");
 
 					resetFormAndAction();
 				},
@@ -41,6 +36,8 @@ export function SignInForm() {
 				},
 			},
 		});
+
+	const { isSubmitting } = form.formState;
 
 	return (
 		<Form {...form}>
@@ -80,7 +77,12 @@ export function SignInForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" className="w-full">
+				<Button
+					type="submit"
+					className="w-full"
+					disabled={isSubmitting}
+					loading={isSubmitting}
+				>
 					Login com e-mail
 				</Button>
 			</form>

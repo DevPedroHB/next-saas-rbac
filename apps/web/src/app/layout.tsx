@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 			<body>
 				<ThemeProvider>
 					{children}
-					<Toaster visibleToasts={9} richColors />
+					<Toaster visibleToasts={9} richColors closeButton />
 				</ThemeProvider>
 			</body>
 		</html>

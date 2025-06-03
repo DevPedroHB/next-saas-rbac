@@ -1,6 +1,6 @@
+import { SignInWithGithub } from "@/components/sign-in-with-github";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { GitHubDark } from "@ridemountainpig/svgl-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SignUpForm } from "./components/sign-up-form";
@@ -17,10 +17,7 @@ export default function SignUp() {
 				<Link href="/auth/sign-in">Já registrado? Entrar</Link>
 			</Button>
 			<Separator />
-			<Button type="button" variant="outline" className="w-full">
-				<GitHubDark className="size-4" />
-				Inscreva-se com o GitHub
-			</Button>
+			<SignInWithGithub />
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { signUpAction } from "@/actions/sign-up-action";
+import { signUpAction } from "@/actions/auth/sign-up-action";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -20,15 +20,10 @@ export function SignUpForm() {
 	const { form, handleSubmitWithAction, resetFormAndAction } =
 		useHookFormAction(signUpAction, zodResolver(signUpSchema), {
 			actionProps: {
-				onSuccess({ data }) {
-					toast.success(data?.message);
-
-					resetFormAndAction();
-				},
-				onError({ error }) {
-					toast.error(
-						error.thrownError?.message ?? "Erro ao realizar o registro.",
-					);
+				onSettled: ({ result }) => {
+					result.serverError || result.serverError
+						? toast.error("Erro ao realizar o cadastro.")
+						: toast.success("Cadastro realizado com sucesso.");
 
 					resetFormAndAction();
 				},
@@ -42,6 +37,8 @@ export function SignUpForm() {
 				},
 			},
 		});
+
+	const { isSubmitting } = form.formState;
 
 	return (
 		<Form {...form}>
@@ -102,7 +99,12 @@ export function SignUpForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" className="w-full">
+				<Button
+					type="submit"
+					className="w-full"
+					disabled={isSubmitting}
+					loading={isSubmitting}
+				>
 					Criar uma conta
 				</Button>
 			</form>

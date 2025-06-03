@@ -1,14 +1,18 @@
 "use server";
 
+import { api } from "@/libs/ky";
 import { actionClient } from "@/libs/safe-action";
 import { forgotPasswordSchema } from "@/types/schemas/forgot-password-schema";
+import { redirect } from "next/navigation";
 
 export const forgotPasswordAction = actionClient
 	.inputSchema(forgotPasswordSchema)
 	.action(async ({ parsedInput: { email } }) => {
-		console.log({ email });
+		await api.post("password/recover", {
+			json: {
+				email,
+			},
+		});
 
-		return {
-			message: "Código de recuperação de senha enviado para seu e-mail.",
-		};
+		redirect("/auth/sign-in");
 	});

@@ -1,6 +1,6 @@
 "use client";
 
-import { forgotPasswordAction } from "@/actions/forgot-password-action";
+import { forgotPasswordAction } from "@/actions/auth/forgot-password-action";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -17,16 +17,15 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { toast } from "sonner";
 
 export function ForgotPasswordForm() {
-	const { form, handleSubmitWithAction, resetFormAndAction } =
+	const { form, handleSubmitWithAction, resetFormAndAction, action } =
 		useHookFormAction(forgotPasswordAction, zodResolver(forgotPasswordSchema), {
 			actionProps: {
-				onSuccess({ data }) {
-					toast.success(data?.message);
-
-					resetFormAndAction();
-				},
-				onError({ error }) {
-					toast.error(error.thrownError?.message ?? "Erro ao recuperar senha.");
+				onSettled: ({ result }) => {
+					result.serverError || result.validationErrors
+						? toast.error("Erro ao recuperar a senha.")
+						: toast.success(
+								"Código de recuperação de senha enviado para seu e-mail.",
+							);
 
 					resetFormAndAction();
 				},
@@ -37,6 +36,8 @@ export function ForgotPasswordForm() {
 				},
 			},
 		});
+
+	const { isSubmitting } = form.formState;
 
 	return (
 		<Form {...form}>
@@ -58,7 +59,12 @@ export function ForgotPasswordForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" className="w-full">
+				<Button
+					type="submit"
+					className="w-full"
+					disabled={isSubmitting}
+					loading={isSubmitting}
+				>
 					Recuperar senha
 				</Button>
 			</form>
