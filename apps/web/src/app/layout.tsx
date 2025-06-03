@@ -1,3 +1,4 @@
+import { cn } from "@/functions/cn";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 	return (
 		<html
 			lang="pt-BR"
-			className={`scroll-smooth antialiased ${inter.variable}`}
+			className={cn("antialiased scroll-smooth", inter.className)}
 		>
 			<body>{children}</body>
 		</html>
