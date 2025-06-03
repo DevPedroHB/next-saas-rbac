@@ -1,4 +1,6 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/functions/cn";
+import ThemeProvider from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
@@ -25,7 +27,12 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 			lang="pt-BR"
 			className={cn("antialiased scroll-smooth", inter.className)}
 		>
-			<body>{children}</body>
+			<body>
+				<ThemeProvider>
+					{children}
+					<Toaster visibleToasts={9} richColors />
+				</ThemeProvider>
+			</body>
 		</html>
 	);
 }
