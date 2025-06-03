@@ -5,6 +5,13 @@ import { createAccountController } from "./auth/create-account";
 import { getProfileController } from "./auth/get-profile";
 import { requestPasswordRecoverController } from "./auth/request-password-recover";
 import { resetPasswordController } from "./auth/reset-password";
+import { acceptInviteController } from "./invites/accept-invite";
+import { createInviteController } from "./invites/create-invite";
+import { getInviteController } from "./invites/get-invite";
+import { getInvitesController } from "./invites/get-invites";
+import { getPendingInvitesController } from "./invites/get-pending-invites";
+import { rejectInviteController } from "./invites/reject-invite";
+import { revokeInviteController } from "./invites/revoke-invite";
 import { getMembersController } from "./members/get-members";
 import { removeMemberController } from "./members/remove-member";
 import { updateMemberController } from "./members/update-member";
@@ -46,4 +53,12 @@ export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(getMembersController);
 	app.register(updateMemberController);
 	app.register(removeMemberController);
+
+	app.register(createInviteController);
+	app.register(getInviteController);
+	app.register(getInvitesController);
+	app.register(acceptInviteController);
+	app.register(rejectInviteController);
+	app.register(revokeInviteController);
+	app.register(getPendingInvitesController);
 };

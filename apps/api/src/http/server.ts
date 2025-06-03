@@ -50,6 +50,7 @@ app.register(fastifySwagger, {
 			{ name: "Organization", description: "Organization related end-points" },
 			{ name: "Project", description: "Project related end-points" },
 			{ name: "Member", description: "Member related end-points" },
+			{ name: "Invite", description: "Invite related end-points" },
 		],
 		components: {
 			securitySchemes: {
