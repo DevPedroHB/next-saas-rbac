@@ -1,0 +1,902 @@
+type: collection.insomnia.rest/5.0
+name: next-saas-rbac
+meta:
+  id: wrk_d05799ed397e4cb18f536e971aa33ef0
+  created: 1748735913028
+  modified: 1748735913028
+collection:
+  - name: User
+    meta:
+      id: fld_832f587a41614534879b02ac776cb6db
+      created: 1748736095298
+      modified: 1748736095298
+      sortKey: -1748736095298
+    children:
+      - url: "{{ _.baseUrl }}/users"
+        name: Create account
+        meta:
+          id: req_72ffbd95dd1d43e79de4957a4c0ca13b
+          created: 1748736099063
+          modified: 1748753961302
+          isPrivate: false
+          sortKey: -1748736099064
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"name": "{% faker 'person', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'fullName', '', '', '', '', '', '', 'pt_BR' %}",
+            	"email": "{% faker 'internet', '', '', '', '', '', '', '', '', '', '', '', '', 'email', '', '', '', '', '', '', '', '', '', '', '', 'pt_BR' %}",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/sessions/password"
+        name: Authenticate with password
+        meta:
+          id: req_63c65052a0524d709f50e68e2edd991f
+          created: 1748742726162
+          modified: 1748751603863
+          isPrivate: false
+          sortKey: -1748742726162
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"email": "pedrohb@acme.com",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/profile"
+        name: Get profile
+        meta:
+          id: req_673f709c559c47a6bc2fd054fecbf359
+          created: 1748744327364
+          modified: 1748761015418
+          isPrivate: false
+          sortKey: -1748744327364
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/password/recover"
+        name: Request password recover
+        meta:
+          id: req_ab86a5b0adf54d5ebd00441900d66d38
+          created: 1748752562534
+          modified: 1748752633241
+          isPrivate: false
+          sortKey: -1748752562534
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "pedrohb@acme.com"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/password/reset"
+        name: Reset password
+        meta:
+          id: req_8190b9fb49524e079959b3bb502b6761
+          created: 1748753469707
+          modified: 1748753772727
+          isPrivate: false
+          sortKey: -1748753469707
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"code": "022ae980-a380-428b-b2ce-66a6b812a8b7",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: https://github.com/login/oauth/authorize
+        name: Github authorize
+        meta:
+          id: req_071175ef10ff436b84b5cf2a1abb63d9
+          created: 1748755855259
+          modified: 1748760936561
+          isPrivate: false
+          sortKey: -1748755855259
+        method: GET
+        parameters:
+          - id: pair_2874986ee81d420192f29b6215c7248a
+            name: client_id
+            value: "{{ _.AUTH_GITHUB_ID }}"
+            disabled: false
+          - id: pair_3ca819916d9d4fefadead06d6ae3a6a2
+            name: redirect_uri
+            value: "{{ _.AUTH_GITHUB_REDIRECT_URI }}"
+            disabled: false
+          - id: pair_5df060196e83429b91cb8051907c5a57
+            name: scope
+            value: user:email
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/sessions/github"
+        name: Authenticate with github
+        meta:
+          id: req_2a29a292891b4b028d5625139279e8dc
+          created: 1748756219442
+          modified: 1748760985371
+          isPrivate: false
+          sortKey: -1748756219442
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"code": "bddda938923bf1d16381"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Organization
+    meta:
+      id: fld_e6b1eabb6c864a508785eda028f7f9af
+      created: 1748762139145
+      modified: 1748896564150
+      sortKey: -1748762139145
+    children:
+      - url: "{{ _.baseUrl }}/organizations"
+        name: Create organization
+        meta:
+          id: req_0b48b3019aea4a77b12e0edd63d6d4b4
+          created: 1748762142517
+          modified: 1748896639479
+          isPrivate: false
+          sortKey: -1748762142517
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "RoseMC",
+            	"domain": "rosemc.com.br",
+            	"shouldAttachUsersByDomain": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/organizations/:slug/membership"
+        name: Get membership
+        meta:
+          id: req_9ef23c02553e4c18bd4b3edcb085a252
+          created: 1748765794248
+          modified: 1748896635931
+          isPrivate: false
+          sortKey: -1748765794248
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations/:slug"
+        name: Get organization
+        meta:
+          id: req_323a902ad1c24191a2523aae721c9155
+          created: 1748887693118
+          modified: 1748896632013
+          isPrivate: false
+          sortKey: -1748887693118
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations"
+        name: Get organizations
+        meta:
+          id: req_d20ebf697f3349329888a30d23a91171
+          created: 1748888634870
+          modified: 1748896628735
+          isPrivate: false
+          sortKey: -1748888634870
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/organizations/:slug"
+        name: Update organization
+        meta:
+          id: req_554fbce9276c40fa882d6b0eab3392f1
+          created: 1748891575959
+          modified: 1748896620571
+          isPrivate: false
+          sortKey: -1748891575959
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "PedroHB",
+            	"domain": "pedrohb.dev",
+            	"shouldAttachUsersByDomain": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations/:slug"
+        name: Shutdown organization
+        meta:
+          id: req_d599c7da926c4c3aa3f0819154a59586
+          created: 1748893179891
+          modified: 1748896617101
+          isPrivate: false
+          sortKey: -1748893179891
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: rose-mc
+      - url: "{{ _.baseUrl }}/organizations/:slug/owner"
+        name: Transfer organization
+        meta:
+          id: req_e0257fc422824499979af1cd5e7b2fd4
+          created: 1748895424495
+          modified: 1748896613438
+          isPrivate: false
+          sortKey: -1748895424495
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"ownerId": "{% uuid 'v4' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+        'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+    headers:
+      - id: pair_46fd7ae676d048b4bd5136cbc13e66d6
+        disabled: false
+  - name: Project
+    meta:
+      id: fld_82e5b948266e4f6d8d1b87c042d0d075
+      created: 1748896404693
+      modified: 1748896594400
+      sortKey: -1748896404693
+    children:
+      - url: "{{ _.baseUrl }}/organizations/:slug/projects"
+        name: Create project
+        meta:
+          id: req_36753fa5350d476da811655da50c1d48
+          created: 1748896407336
+          modified: 1748897340635
+          isPrivate: false
+          sortKey: -1748896407336
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"name": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'sentence', '', '', '', '', '', '', '', '', '', 'pt_BR' %}",
+            	"description": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'text', '', '', '', '', '', '', '', '', '', 'pt_BR' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations/:slug/projects/:projectId"
+        name: Delete project
+        meta:
+          id: req_eb4be4ead74d486b9305bc059ac5dff2
+          created: 1748899354939
+          modified: 1748899427299
+          isPrivate: false
+          sortKey: -1748899354939
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+          - name: projectId
+            value: baf35c11-f680-479d-ad93-f5f97929fea8
+      - url: "{{ _.baseUrl }}/organizations/:orgSlug/projects/:projectSlug"
+        name: Get project
+        meta:
+          id: req_6e67bd85384a4798877d0f263a41e90e
+          created: 1748900423458
+          modified: 1748900732569
+          isPrivate: false
+          sortKey: -1748900423458
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: orgSlug
+            value: pedro-hb
+          - name: projectSlug
+            value: ipsam-itaque-veritatis-perspiciatis-facere-ut-repellat-modi-tempore-eveniet
+      - url: "{{ _.baseUrl }}/organizations/:slug/projects"
+        name: Get projects
+        meta:
+          id: req_0ea26438e96d43f6993da6ec1f5caf2e
+          created: 1748901836769
+          modified: 1748901859895
+          isPrivate: false
+          sortKey: -1748901836769
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations/:slug/projects/:id"
+        name: Update project
+        meta:
+          id: req_0f5a1130a851484bb9550c062d63833d
+          created: 1748902369474
+          modified: 1748902505515
+          isPrivate: false
+          sortKey: -1748902369474
+        method: PUT
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"name": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'sentence', '', '', '', '', '', '', '', '', '', 'pt_BR' %}",
+            	"description": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'text', '', '', '', '', '', '', '', '', '', 'pt_BR' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+          - name: id
+            value: 6c548907-c6ba-4d01-a2bf-df4a632ce90d
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+        'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+    headers:
+      - id: pair_94d5d864421c4ccd8bb3ccbc321e3c24
+        disabled: false
+  - name: Member
+    meta:
+      id: fld_c8267eac77c848b2bb74bbb7f98582a3
+      created: 1748906559427
+      modified: 1748906607157
+      sortKey: -1748906559427
+    children:
+      - url: "{{ _.baseUrl }}/organizations/:slug/members"
+        name: Get members
+        meta:
+          id: req_12c49eac76de4b54a4cbb6ca9dd286be
+          created: 1748906573011
+          modified: 1748906650498
+          isPrivate: false
+          sortKey: -1748906573011
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/organizations/:slug/members/:memberId"
+        name: Update member
+        meta:
+          id: req_6e65ef46bc624d44bb21ab60327e7561
+          created: 1748906704300
+          modified: 1748907135695
+          isPrivate: false
+          sortKey: -1748906704300
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"role": "ADMIN"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+          - name: memberId
+            value: "{% response 'body', 'req_12c49eac76de4b54a4cbb6ca9dd286be',
+              'b64::JC5tZW1iZXJzWzBdLmlk::46b', 'no-history', 60 %}"
+      - url: "{{ _.baseUrl }}/organizations/:slug/members/:memberId"
+        name: Remove member
+        meta:
+          id: req_8a015beef306485faf2771960068726f
+          created: 1748907554249
+          modified: 1748907612529
+          isPrivate: false
+          sortKey: -1748907554249
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+          - name: memberId
+            value: "{% response 'body', 'req_12c49eac76de4b54a4cbb6ca9dd286be',
+              'b64::JC5tZW1iZXJzWzBdLmlk::46b', 'no-history', 60 %}"
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+        'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+  - name: Invite
+    meta:
+      id: fld_3567fa9c014e4e8693cdb2a1660dd3f6
+      created: 1748909259554
+      modified: 1748909287614
+      sortKey: -1748909259554
+    children:
+      - url: "{{ _.baseUrl }}/organizations/:slug/invites"
+        name: Create invite
+        meta:
+          id: req_0256d40388f34ee2b8a44ef1108d6520
+          created: 1748909293717
+          modified: 1748909426935
+          isPrivate: false
+          sortKey: -1748909293717
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "pedrohb@acme.com",
+            	"role": "MEMBER"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/invites/:inviteId"
+        name: Get invite
+        meta:
+          id: req_d7cfdf8c8e994973b202dac34b52579d
+          created: 1748910228722
+          modified: 1748910286383
+          isPrivate: false
+          sortKey: -1748910228722
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: inviteId
+            value: "{% response 'body', 'req_0256d40388f34ee2b8a44ef1108d6520',
+              'b64::JC5pbnZpdGVJZA==::46b', 'no-history', 60 %}"
+      - url: "{{ _.baseUrl }}/organizations/:slug/invites"
+        name: Get invites
+        meta:
+          id: req_6bcc8ad12f464069916aaa83a6cd656e
+          created: 1748910867730
+          modified: 1748910889405
+          isPrivate: false
+          sortKey: -1748910867730
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+      - url: "{{ _.baseUrl }}/invites/:inviteId/accept"
+        name: Accept invite
+        meta:
+          id: req_483a00e2074f4518b5cc6c4e3073d66b
+          created: 1748911601028
+          modified: 1748911735486
+          isPrivate: false
+          sortKey: -1748911601028
+        method: PATCH
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_63c65052a0524d709f50e68e2edd991f',
+            'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: inviteId
+            value: "{% response 'body', 'req_6bcc8ad12f464069916aaa83a6cd656e',
+              'b64::JC5pbnZpdGVzWzBdLmlk::46b', 'no-history', 60 %}"
+      - url: "{{ _.baseUrl }}/invites/:inviteId/reject"
+        name: Reject invite
+        meta:
+          id: req_2433eb21fd0646d1892980217c941c8c
+          created: 1748911999561
+          modified: 1748912062299
+          isPrivate: false
+          sortKey: -1748911999561
+        method: PATCH
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_63c65052a0524d709f50e68e2edd991f',
+            'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: inviteId
+            value: "{% response 'body', 'req_6bcc8ad12f464069916aaa83a6cd656e',
+              'b64::JC5pbnZpdGVzWzBdLmlk::46b', 'no-history', 60 %}"
+      - url: "{{ _.baseUrl }}/organizations/:slug/invites/:inviteId"
+        name: Revoke invite
+        meta:
+          id: req_9a15c1690faf4d7aaf2d9c16a886a208
+          created: 1748912542778
+          modified: 1748912591769
+          isPrivate: false
+          sortKey: -1748912542778
+        method: PATCH
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+          - name: inviteId
+            value: "{% response 'body', 'req_6bcc8ad12f464069916aaa83a6cd656e',
+              'b64::JC5pbnZpdGVzWzBdLmlk::46b', 'no-history', 60 %}"
+      - url: "{{ _.baseUrl }}/pending-invites"
+        name: Get pending invites
+        meta:
+          id: req_1fee54b1422c4141adfd46dc3d599ebb
+          created: 1748913011432
+          modified: 1748913027727
+          isPrivate: false
+          sortKey: -1748913011432
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+        'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+  - name: Billing
+    meta:
+      id: fld_d0566bb24b3e44f2b65552a50e93ff42
+      created: 1748914109437
+      modified: 1748914174710
+      sortKey: -1748914109437
+    children:
+      - url: "{{ _.baseUrl }}/organizations/:slug/billing"
+        name: Get organization billing
+        meta:
+          id: req_c4912de95ca341e8ad2e2b1987dacf77
+          created: 1748914112485
+          modified: 1748914143797
+          isPrivate: false
+          sortKey: -1748914112485
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+        pathParameters:
+          - name: slug
+            value: pedro-hb
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_2a29a292891b4b028d5625139279e8dc',
+        'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_0b5f97c2dcd10e21d393b4087378376530addb74
+    created: 1748735913038
+    modified: 1748756282044
+environments:
+  name: Base Environment
+  meta:
+    id: env_0b5f97c2dcd10e21d393b4087378376530addb74
+    created: 1748735913034
+    modified: 1748760860991
+    isPrivate: false
+  data:
+    AUTH_GITHUB_ID: HE-HE-HE
+    AUTH_GITHUB_REDIRECT_URI: http://localhost:3000/api/auth/callback/github

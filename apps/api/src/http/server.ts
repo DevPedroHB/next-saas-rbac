@@ -51,6 +51,7 @@ app.register(fastifySwagger, {
 			{ name: "Project", description: "Project related end-points" },
 			{ name: "Member", description: "Member related end-points" },
 			{ name: "Invite", description: "Invite related end-points" },
+			{ name: "Billing", description: "Billing related end-points" },
 		],
 		components: {
 			securitySchemes: {

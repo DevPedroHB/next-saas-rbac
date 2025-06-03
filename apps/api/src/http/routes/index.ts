@@ -5,6 +5,7 @@ import { createAccountController } from "./auth/create-account";
 import { getProfileController } from "./auth/get-profile";
 import { requestPasswordRecoverController } from "./auth/request-password-recover";
 import { resetPasswordController } from "./auth/reset-password";
+import { getOrganizationBillingController } from "./billing/get-organization-billing";
 import { acceptInviteController } from "./invites/accept-invite";
 import { createInviteController } from "./invites/create-invite";
 import { getInviteController } from "./invites/get-invite";
@@ -61,4 +62,6 @@ export const routes: FastifyPluginAsyncZod = async (app) => {
 	app.register(rejectInviteController);
 	app.register(revokeInviteController);
 	app.register(getPendingInvitesController);
+
+	app.register(getOrganizationBillingController);
 };
