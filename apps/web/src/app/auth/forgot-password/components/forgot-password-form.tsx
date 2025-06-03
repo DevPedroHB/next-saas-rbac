@@ -1,6 +1,6 @@
 "use client";
 
-import { signInAction } from "@/actions/sign-in-action";
+import { forgotPasswordAction } from "@/actions/forgot-password-action";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -11,15 +11,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signInSchema } from "@/types/schemas/sign-in-schema";
+import { forgotPasswordSchema } from "@/types/schemas/forgot-password-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import Link from "next/link";
 import { toast } from "sonner";
 
-export function SignInForm() {
+export function ForgotPasswordForm() {
 	const { form, handleSubmitWithAction, resetFormAndAction } =
-		useHookFormAction(signInAction, zodResolver(signInSchema), {
+		useHookFormAction(forgotPasswordAction, zodResolver(forgotPasswordSchema), {
 			actionProps: {
 				onSuccess({ data }) {
 					toast.success(data?.message);
@@ -27,9 +26,7 @@ export function SignInForm() {
 					resetFormAndAction();
 				},
 				onError({ error }) {
-					toast.error(
-						error.thrownError?.message ?? "Erro ao realizar o login.",
-					);
+					toast.error(error.thrownError?.message ?? "Erro ao recuperar senha.");
 
 					resetFormAndAction();
 				},
@@ -37,7 +34,6 @@ export function SignInForm() {
 			formProps: {
 				defaultValues: {
 					email: "",
-					password: "",
 				},
 			},
 		});
@@ -62,26 +58,8 @@ export function SignInForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="password"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel className="justify-between">
-								Senha
-								<Link href="/auth/forgot-password" className="hover:underline">
-									Esqueceu sua senha?
-								</Link>
-							</FormLabel>
-							<FormControl>
-								<Input type="password" placeholder="**********" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<Button type="submit" className="w-full">
-					Login com e-mail
+					Recuperar senha
 				</Button>
 			</form>
 		</Form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { signInAction } from "@/actions/sign-in-action";
+import { signUpAction } from "@/actions/sign-up-action";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -11,15 +11,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signInSchema } from "@/types/schemas/sign-in-schema";
+import { signUpSchema } from "@/types/schemas/sign-up-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import Link from "next/link";
 import { toast } from "sonner";
 
-export function SignInForm() {
+export function SignUpForm() {
 	const { form, handleSubmitWithAction, resetFormAndAction } =
-		useHookFormAction(signInAction, zodResolver(signInSchema), {
+		useHookFormAction(signUpAction, zodResolver(signUpSchema), {
 			actionProps: {
 				onSuccess({ data }) {
 					toast.success(data?.message);
@@ -28,7 +27,7 @@ export function SignInForm() {
 				},
 				onError({ error }) {
 					toast.error(
-						error.thrownError?.message ?? "Erro ao realizar o login.",
+						error.thrownError?.message ?? "Erro ao realizar o registro.",
 					);
 
 					resetFormAndAction();
@@ -36,8 +35,10 @@ export function SignInForm() {
 			},
 			formProps: {
 				defaultValues: {
+					name: "",
 					email: "",
 					password: "",
+					confirmPassword: "",
 				},
 			},
 		});
@@ -45,6 +46,19 @@ export function SignInForm() {
 	return (
 		<Form {...form}>
 			<form onSubmit={handleSubmitWithAction} className="space-y-4">
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Nome</FormLabel>
+							<FormControl>
+								<Input type="text" placeholder="John Doe" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				<FormField
 					control={form.control}
 					name="email"
@@ -67,12 +81,20 @@ export function SignInForm() {
 					name="password"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="justify-between">
-								Senha
-								<Link href="/auth/forgot-password" className="hover:underline">
-									Esqueceu sua senha?
-								</Link>
-							</FormLabel>
+							<FormLabel>Senha</FormLabel>
+							<FormControl>
+								<Input type="password" placeholder="**********" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="confirmPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Confirme sua senha</FormLabel>
 							<FormControl>
 								<Input type="password" placeholder="**********" {...field} />
 							</FormControl>
@@ -81,7 +103,7 @@ export function SignInForm() {
 					)}
 				/>
 				<Button type="submit" className="w-full">
-					Login com e-mail
+					Criar uma conta
 				</Button>
 			</form>
 		</Form>
