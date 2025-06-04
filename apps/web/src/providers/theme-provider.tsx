@@ -6,7 +6,7 @@ import {
 	type ThemeProviderProps,
 } from "next-themes";
 
-export default function ThemeProvider(props: ThemeProviderProps) {
+export function ThemeProvider(props: ThemeProviderProps) {
 	return (
 		<NextThemeProvider
 			attribute="class"

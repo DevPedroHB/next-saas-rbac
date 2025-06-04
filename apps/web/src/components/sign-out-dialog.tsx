@@ -1,6 +1,7 @@
 "use client";
 
 import { signOutAction } from "@/actions/auth/sign-out-action";
+import { getQueryClient } from "@/libs/get-query-client";
 import { useAction } from "next-safe-action/hooks";
 import type { ComponentProps } from "react";
 import { toast } from "sonner";
@@ -21,6 +22,10 @@ interface ISignOutDialog extends ComponentProps<typeof AlertDialogTrigger> {}
 export function SignOutDialog(props: ISignOutDialog) {
 	const { execute, isPending } = useAction(signOutAction, {
 		onSettled() {
+			const queryClient = getQueryClient();
+
+			queryClient.removeQueries({ queryKey: ["profile"] });
+
 			toast.success("Você saiu com sucesso. Volte sempre!");
 		},
 	});
@@ -33,7 +38,7 @@ export function SignOutDialog(props: ISignOutDialog) {
 					<AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
 					<AlertDialogDescription>
 						Tem certeza de que deseja sair? Sua sessão atual será apagada e você
-						será; redirecionado para a página de login.
+						será redirecionado para a página de login.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

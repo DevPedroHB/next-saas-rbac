@@ -17,7 +17,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { toast } from "sonner";
 
 export function ForgotPasswordForm() {
-	const { form, handleSubmitWithAction, resetFormAndAction, action } =
+	const { form, handleSubmitWithAction, resetFormAndAction } =
 		useHookFormAction(forgotPasswordAction, zodResolver(forgotPasswordSchema), {
 			actionProps: {
 				onSettled: ({ result }) => {
