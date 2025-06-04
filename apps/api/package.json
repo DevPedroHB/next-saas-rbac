@@ -24,16 +24,16 @@
 		"tsx": "^4.19.4",
 		"typescript": "5.8.2"
 	},
-	"keywords": [
-		"api"
-	],
+	"keywords": ["api"],
 	"license": "MIT",
-	"main": "src/http/main.ts",
+	"main": "dist/http/server.js",
 	"name": "@next-saas-rbac/api",
 	"packageManager": "pnpm@10.11.0",
 	"scripts": {
+		"build": "tsup",
 		"dev": "pnpm env:load tsx watch src/http/server.ts",
-		"env:load": "dotenv -e ../../.env --"
+		"env:load": "dotenv -e ../../.env --",
+		"start": "node ."
 	},
 	"version": "1.0.0"
 }

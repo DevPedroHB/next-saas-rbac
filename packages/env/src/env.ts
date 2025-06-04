@@ -6,7 +6,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
 			.default("development"),
-		API_PORT: z.coerce.number().default(3333),
+		PORT: z.coerce.number().default(3333),
 		API_URL: z.string().url().default("http://localhost:3333"),
 		JWT_SECRET: z.string(),
 		DATABASE_URL: z.string().url(),

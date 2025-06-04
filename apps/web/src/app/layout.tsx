@@ -27,6 +27,7 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 		<html
 			lang="pt-BR"
 			className={cn("antialiased scroll-smooth", inter.className)}
+			suppressHydrationWarning
 		>
 			<body>
 				<QueryClientProvider>

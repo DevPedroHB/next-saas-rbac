@@ -1,9 +1,4 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"compilerOptions": {
-		"skipLibCheck": true,
-		"strict": true,
-		"strictNullChecks": true
-	},
 	"extends": "@tsconfig/node24/tsconfig.json"
 }

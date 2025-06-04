@@ -1,3 +1,4 @@
+import { Header } from "@/components/header";
 import { getServerSession } from "@/libs/session";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -15,5 +16,10 @@ export default async function ApplicationLayout({
 		redirect("/auth/sign-in");
 	}
 
-	return <>{children}</>;
+	return (
+		<div className="space-y-4 py-4">
+			<Header />
+			<main className="mx-auto w-full max-w-[75rem]">{children}</main>
+		</div>
+	);
 }

@@ -13,7 +13,7 @@ export async function Header() {
 	const { data: membershipData } = await getMembershipAction();
 
 	return (
-		<header className="flex justify-between items-center mx-auto max-w-[75rem]">
+		<header className="flex justify-between items-center mx-auto pb-2 border-b max-w-[75rem]">
 			<div className="flex items-center gap-3">
 				<Nextjs className="size-6" />
 				<Slash className="text-border size-3 -rotate-[24deg]" />

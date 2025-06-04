@@ -77,9 +77,6 @@ app.register(routes, {
 	prefix: "/api/v1",
 });
 
-app.listen({ port: env.API_PORT }).then(() => {
-	console.log(`✅ HTTP server running 🚀
-    Docs at http://localhost:${env.API_PORT}/docs
-    API at http://localhost:${env.API_PORT}/api/v1
-  `);
+app.listen({ port: env.PORT }).then(() => {
+	console.log(`✅ API running on port ${env.PORT} 🚀`);
 });
