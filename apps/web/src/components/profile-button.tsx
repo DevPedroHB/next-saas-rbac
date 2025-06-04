@@ -43,7 +43,7 @@ export function ProfileButton() {
 						{data.user.email}
 					</span>
 				</div>
-				<Avatar>
+				<Avatar className="size-8">
 					<AvatarImage
 						src={data.user.avatarUrl ?? ""}
 						alt={data.user.name ?? data.user.email}

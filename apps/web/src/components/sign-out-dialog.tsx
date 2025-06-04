@@ -24,7 +24,7 @@ export function SignOutDialog(props: ISignOutDialog) {
 		onSettled() {
 			const queryClient = getQueryClient();
 
-			queryClient.removeQueries({ queryKey: ["profile"] });
+			queryClient.removeQueries();
 
 			toast.success("Você saiu com sucesso. Volte sempre!");
 		},

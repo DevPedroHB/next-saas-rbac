@@ -1,6 +1,10 @@
-import { getOrganizationsAction } from "@/actions/orgs/get-organizations-action";
+"use client";
+
+import { getOrganizations } from "@/actions/orgs/get-organizations-action";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronsUpDown, Package, PlusCircle } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
 	DropdownMenu,
@@ -11,13 +15,37 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-export async function OrganizationSwitcher() {
-	const { data } = await getOrganizationsAction();
+export function OrganizationSwitcher() {
+	const { data } = useSuspenseQuery({
+		queryKey: ["organizations"],
+		queryFn: getOrganizations,
+	});
+
+	const pathnames = usePathname();
+
+	const currentOrg = data.organizations.find((org) =>
+		pathnames.startsWith(`/org/${org.slug}`),
+	);
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-2 p-1 rounded outline-none focus:ring-2 focus:ring-primary w-[12.5rem] font-medium text-sm">
-				<span className="text-muted-foreground">Selecione organização</span>
+				{currentOrg ? (
+					<>
+						<Avatar className="mr-2 size-4">
+							<AvatarImage
+								src={currentOrg.avatarUrl ?? ""}
+								alt={currentOrg.name}
+							/>
+							<AvatarFallback>
+								<Package className="size-3 text-muted-foreground" />
+							</AvatarFallback>
+						</Avatar>
+						<span className="text-left truncate">{currentOrg.name}</span>
+					</>
+				) : (
+					<span className="text-muted-foreground">Selecione organização</span>
+				)}
 				<ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
@@ -26,7 +54,7 @@ export async function OrganizationSwitcher() {
 			>
 				<DropdownMenuLabel>Organizações</DropdownMenuLabel>
 				<DropdownMenuGroup>
-					{data?.organizations.map((organization) => {
+					{data.organizations.map((organization) => {
 						return (
 							<DropdownMenuItem key={organization.id} asChild>
 								<Link href={`/org/${organization.slug}`}>
@@ -55,8 +83,4 @@ export async function OrganizationSwitcher() {
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
-}
-
-export function OrganizationSwitcherFallback() {
-	return <div>Carregando...</div>;
 }

@@ -1,15 +1,13 @@
 import { getProfileAction } from "@/actions/auth/get-profile-action";
+import { getOrganizationsAction } from "@/actions/orgs/get-organizations-action";
 import { Nextjs } from "@ridemountainpig/svgl-react";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { Slash } from "lucide-react";
-import { Suspense } from "react";
-import {
-	OrganizationSwitcher,
-	OrganizationSwitcherFallback,
-} from "./organization-switcher";
+import { OrganizationSwitcher } from "./organization-switcher";
 import { ProfileButton } from "./profile-button";
 
 export async function Header() {
+	const { data: organizationsData } = await getOrganizationsAction();
 	const { data: profileData } = await getProfileAction();
 
 	return (
@@ -17,9 +15,9 @@ export async function Header() {
 			<div className="flex items-center gap-3">
 				<Nextjs className="size-6" />
 				<Slash className="text-border size-3 -rotate-[24deg]" />
-				<Suspense fallback={<OrganizationSwitcherFallback />}>
+				<HydrationBoundary state={organizationsData?.dehydratedState}>
 					<OrganizationSwitcher />
-				</Suspense>
+				</HydrationBoundary>
 			</div>
 			<div className="flex items-center gap-4">
 				<HydrationBoundary state={profileData?.dehydratedState}>

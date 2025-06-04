@@ -18,10 +18,7 @@
 		"typescript": "5.8.2",
 		"zod-prisma-types": "^3.2.4"
 	},
-	"keywords": [
-		"database",
-		"prisma"
-	],
+	"keywords": ["database", "prisma"],
 	"license": "MIT",
 	"main": "src/index.ts",
 	"name": "@next-saas-rbac/database",
@@ -33,6 +30,7 @@
 		"db:deploy": "prisma migrate deploy",
 		"db:generate": "prisma generate",
 		"db:migrate": "pnpm env:load prisma migrate dev --skip-generate",
+		"dev": "pnpm env:load prisma studio",
 		"env:load": "dotenv -e ../../.env --"
 	},
 	"types": "src/index.ts",
